@@ -1,0 +1,34 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import YogarjunLogo from "../assets/YogarjunLogo.png";
+import Banner from "../components/Banner";
+import Footer from "../components/Footer";
+import Timing from "../components/Timing";
+import Room from "../components/Room";
+import Testimonial from "../components/Testimonial";
+import WhyChooseUs from "../components/WhyChooseUs";
+// import TouristPlaces from "../components/TouristPlaces";
+
+const Home = () => {
+ 
+
+  return (
+    <>
+    
+
+      {/* Banner section */}
+       <Banner />
+       <Timing  />
+       <Room />
+       <WhyChooseUs />
+       {/* <TouristPlaces /> */}
+       <Testimonial />
+
+       <Footer />
+     
+
+    </>
+  );
+};
+
+export default Home;

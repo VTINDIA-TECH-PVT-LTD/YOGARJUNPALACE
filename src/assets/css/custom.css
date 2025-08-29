@@ -1,0 +1,165 @@
+/* Custom CSS */
+
+/*Prevent Text Selection*/
+/* body {
+   user-select: none; 
+   -webkit-user-drag: none; 
+} */
+
+/* Capital Font */
+/* #capital{
+    text-transform: uppercase;
+} */
+
+
+/* Header Part Start :- */
+
+
+
+/* Header Part End : */
+
+
+/* Footer Part Start :- */
+
+
+/* Footer Part End : */
+
+
+/* Body Part Start : */
+#bannertitle{
+    font-size:47px;
+}
+
+
+
+/* Body Part End : */
+
+
+
+#hide {
+    display: none;
+}
+
+.justify {
+    text-align: justify;
+}
+
+
+
+/* ===========================[Responsive start]================================= */
+
+/* Laptop (15.6 inch) 💻💻 */
+@media only screen and (min-width : 1400px) {
+
+    /* Header Part Start : */
+
+    /* Header Part End : */
+
+
+    /* Footer Part Start :- */
+
+    /* Footer Part End : */
+
+
+    /* Body Part Start : */
+
+    /* Body Part End : */
+}
+
+/* Laptop (14 inch) 💻 */
+@media only screen and (min-width : 1200px) {
+
+    /* Header Part Start : */
+
+    /* Header Part End : */
+
+    /* Footer Part Start :- */
+
+    /* Footer Part End : */
+
+    /* Body Part Start : */
+
+    /* Body Part End : */
+
+
+}
+
+
+/* Mobile View Not Included */
+@media only screen and (min-width : 768px) {
+
+    /* Header Part Start : */
+
+    /* Header Part End : */
+
+
+    /* Footer Part Start :- */
+
+    /* Footer Part End : */
+
+    /* Body Part Start : */
+
+    /* Body Part End : */
+
+}
+
+/* Mobile View 📱📱📱*/
+@media only screen and (max-width : 768px) {
+
+    /* Header Part Start : */
+    #setlogo{
+    font-size: 17px !important;
+}
+
+#bannertitle {
+    font-size: 26px;
+}
+
+#banertext{
+    text-align: justify !important;
+}
+
+#hidemob{
+    display: none;
+}
+
+    /* Header Part End : */
+
+
+    /* Footer Part Start :- */
+
+    /* Footer Part End : */
+
+
+    /* Body Part Start : */
+
+
+    /* Body Part End : */
+
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~(Animation Responsive)~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* Default styles : */
+
+/* Laptop (15.6 inch) */
+/* Large screens (min-width: 1400px) */
+@media only screen and (min-width : 1400px) {}
+
+
+/* Laptop (14 inch) */
+/* Medium screens (min-width: 1024px and max-width: 1399px) */
+@media only screen and (min-width: 1024px) and (max-width: 1399px) {}
+
+
+/* Small screens (min-width: 768px and max-width: 1023px) */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {}
+
+
+/* Mobile */
+/* Extra small screens (max-width: 767px) */
+@media only screen and (max-width: 767px) {}
+
+
+/* ===========================[Responsive end]================================= */
