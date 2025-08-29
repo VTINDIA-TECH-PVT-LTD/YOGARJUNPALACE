@@ -57,13 +57,17 @@ const Header = () => {
         {/* header close */}
 
         {/* menu overlay begin */}
-        <div
+        {/* <div
           id="menu-overlay"
           className={`slideDown ${menuOpen ? "open" : ""}`}
           style={{
             display: menuOpen ? "block" : "none",
             transition: "all 0.3s ease-in-out",
           }}
+        > */}
+        <div
+          id="menu-overlay"
+          className={`menu-overlay ${menuOpen ? "open" : ""}`}
         >
           <div className="container-fluid">
             <div className="row-fluid">

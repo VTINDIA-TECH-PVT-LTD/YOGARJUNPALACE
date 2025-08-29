@@ -843,7 +843,7 @@ header:not(.header-mobile):not(.force-header-mobile)
   height: auto;
 }
 
-#menu-overlay {
+/* #menu-overlay {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -857,7 +857,38 @@ header:not(.header-mobile):not(.force-header-mobile)
     -o-backdrop-filter: blur(10px);
     -moz-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
+} */
+
+#menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 20, 20, 0.6);
+  color: #ffffff;
+  z-index: 10000;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-backdrop-filter: blur(10px);
+  -o-backdrop-filter: blur(10px);
+  -moz-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+
+  /* instead of display:none */
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: all 0.3s ease-in-out;
 }
+
+/* when menu is open */
+#menu-overlay.open {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
 #menu-overlay.slideDown {
   top: -100%;
 }
