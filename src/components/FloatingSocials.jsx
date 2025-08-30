@@ -1,5 +1,5 @@
 import React from "react";
-import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 import { SiX } from "react-icons/si";
 import { Link } from "react-router-dom";
 
@@ -16,11 +16,7 @@ const FloatingSocials = () => {
                     <FaFacebookF />
                 </a>
 
-
-                <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" className="social-icon x fa-lg">
-                    <SiX />
-                </a>
-
+               
 
                 <a className="fa-lg"
                     href="https://instagram.com/"
@@ -28,6 +24,23 @@ const FloatingSocials = () => {
                     rel="noopener noreferrer"
                 >
                     <FaInstagram />
+                </a>
+
+                 <a
+                    href="https://twitter.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="social-icon x fa-lg"
+                >
+                    <SiX />
+                </a>
+
+                <a className="fa-lg"
+                    href="https://youtube.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <FaYoutube />
                 </a>
             </div>
 

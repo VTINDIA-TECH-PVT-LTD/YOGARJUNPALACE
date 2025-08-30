@@ -30,7 +30,7 @@ const Timing = () => {
               <div className="info-box_text">
                 <div className="info-box_title">Our Location</div>
                 <div className="info-box_subtite">
-                  Sipasarubali Baliapanda,  Ps- Baliapanda, PURI
+                  Sipasarubali Baliapanda, Puri, Odisha 752001
                 </div>
               </div>
             </div>
@@ -44,7 +44,10 @@ const Timing = () => {
               <i className="icon_headphones"></i>
               <div className="info-box_text">
                 <div className="info-box_title">Customer Support</div>
-                <div className="info-box_subtite">+91 9777774302</div>
+                <div className="info-box_subtite">
+                  <a href="tel:+919777774302">+91 97777 74302</a>
+                </div>
+
               </div>
             </div>
           </div>

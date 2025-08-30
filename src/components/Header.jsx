@@ -94,7 +94,7 @@ const Header = () => {
                     </Link> */}
 
                     <div id="logo">
-                      <Link to="/" className="logo-text">
+                      <Link to="/" onClick={() => setMenuOpen(false)} className="logo-text">
                         Hotel Yogarjun Palace
                       </Link>
                     </div>

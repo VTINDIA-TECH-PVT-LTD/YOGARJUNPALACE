@@ -26,11 +26,11 @@ const Banner = () => {
                         zIndex: 1,
                     }}
                 >
-                    <source src="/uploads/local-video.mp4" type="video/mp4" />
+                    <source src="/uploads/YogarjunPalace.mp4" type="video/mp4" />
                 </video>
 
                 {/* Overlay with text */}
-                <div className="de-overlay v-center t5" style={{ zIndex: 2 }}>
+                <div className="de-overlay v-center t2" style={{ zIndex: 2 }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-6 offset-lg-3 text-center">

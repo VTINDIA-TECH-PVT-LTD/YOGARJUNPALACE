@@ -1385,7 +1385,8 @@ footer.footer-transparent .subfooter {
 }
 
 .subfooter {
-  padding: 20px 10px;
+  /* changes */
+  padding: 7px 10px;
 }
 
 footer.footer-fixed .subfooter {
@@ -2234,6 +2235,8 @@ input[type="date"]:before {
   margin-left: 10px;
   margin-right: 10px;
 }
+
+
 
 .coming-soon .social-icons i:hover {
   background: none;
@@ -4185,6 +4188,36 @@ footer.light .social-icons i {
   color: #111111;
 }
 
+
+/* For React Icons */
+.social-icons svg {
+  text-shadow: none;
+  color: #fff;
+  padding: 8px;
+  width: 28px;
+  height: 28px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 1px;
+  -moz-border-radius: 1px;
+  -webkit-border-radius: 1px;
+  transition: all 0.3s ease; /* optional smooth hover effect */
+}
+
+footer.light .social-icons svg {
+  color: #606060;
+}
+
+.social-icons svg:hover {
+  background: #fff;
+  border-color: #eceff3; /* Only relevant if using borders */
+  color: #111111;
+}
+
+
+
+
+
 .social-icons.light i {
   color: #111111;
 }
@@ -5437,10 +5470,11 @@ blockquote.testimonial-big {
   margin: 0;
 }
 blockquote.testimonial-big .d-testi{
-  font-size: 32px;
+  font-size: 25px;
   font-family: "Cormorant Garamond";
   font-style: italic;
   line-height: 1.5em;
+  text-align: justify;
 }
 blockquote.testimonial-big .name {
   margin-top: 20px;
