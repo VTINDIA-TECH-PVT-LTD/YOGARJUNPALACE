@@ -36,7 +36,7 @@ const Booking = () => {
   return (
     <div
     id="backgroundll"
-            data-bgimage="url(https://www.madebydesignesia.com/themes/seaside/images/background/9.jpg) fixed"
+            data-bgimage="url(/uploads/slider7.jpg) fixed"
             style={{
                 minHeight: "100vh",
                 height: "auto",

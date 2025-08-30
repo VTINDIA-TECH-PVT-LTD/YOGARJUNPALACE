@@ -8,12 +8,12 @@ import "swiper/css/pagination";
 
 const Testimonial = () => {
   return (
-    <section className="jarallax">
+    <section className="jarallax" id="testimonials">
       <img src="images/background/4.jpg" className="jarallax-img" alt="" />
       <div className="container">
         <div className="row gx-4">
           <div className="col-lg-12 text-center">
-            <h2 className="title center">
+            <h2 className="title center" id="testimonialsheading">
               Testimonials
               <span className="small-border"></span>
             </h2>

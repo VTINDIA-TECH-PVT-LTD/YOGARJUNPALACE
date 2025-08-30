@@ -11,7 +11,7 @@ const Rooms = () => {
       label: "only 2 room left",
       guests: 2,
       size: "30 ft",
-      link: "/room-single",
+      link: "/single-room",
       description:
         "The Single Room at our Best Hotels Near Baliapanda Puri is cozy and comfortable, perfect for a relaxing stay. It includes free Wi-Fi, a mini fridge, and 24/7 room service for your convenience.",
     },
@@ -22,9 +22,9 @@ const Rooms = () => {
       img: "https://www.madebydesignesia.com/themes/seaside/images/room/1.jpg",
       hoverImg: "https://www.madebydesignesia.com/themes/seaside/images/room/1-alt.jpg",
       label: "only 1 room left",
-      guests: 2,
+      guests: 3,
       size: "35 ft",
-      link: "/room-single",
+      link: "/delux-room",
       description:
         "The Deluxe Room is spacious and comfortable, offering a pleasant stay. It comes with free Wi-Fi, a mini fridge, and round-the-clock room service to make your visit hassle-free.",
     },
@@ -37,7 +37,7 @@ const Rooms = () => {
       label: "only 3 room left",
       guests: 2,
       size: "40 ft",
-      link: "/room-single",
+      link: "/super-delux-room",
       description:
         "The Super Deluxe Room combines comfort and luxury in a large, well-equipped space. It includes modern features like free Wi-Fi, a mini fridge, and 24/7 room service for a truly enjoyable experience.",
     },
@@ -101,7 +101,7 @@ const Rooms = () => {
 
                   <div className="d-text">
                     <h3>{room.name}</h3>
-                    <p>{room.description}</p>
+                    <p class="justify">{room.description}</p>
                     <a href={room.link} className="btn-line">
                       <span>Book Now For ₹{room.price}</span>
                     </a>

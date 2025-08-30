@@ -30,6 +30,13 @@
     font-size:47px;
 }
 
+#testimonials {
+    padding: 1px 0 25px 0 !important;
+}
+
+#testimonialsheading{
+    margin-bottom: 10px !important;
+}
 
 
 /* Body Part End : */
@@ -94,7 +101,13 @@
 
 
     /* Footer Part Start :- */
+#footer-copyright{
+    text-align: left !important;
+}
 
+#footer-socials{
+    text-align: right !important;
+}
     /* Footer Part End : */
 
     /* Body Part Start : */
@@ -121,6 +134,11 @@
 
 #hidemob{
     display: none;
+}
+
+header.header-fullwidth {
+    padding-left: 25px;
+   
 }
 
     /* Header Part End : */
