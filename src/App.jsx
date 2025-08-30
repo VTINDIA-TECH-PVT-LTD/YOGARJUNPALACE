@@ -7,10 +7,14 @@ import FloatingSocials from './components/FloatingSocials';
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Rooms from "./pages/Rooms";
+import SingleRoom from "./pages/SingleRoom";
+import DeluxeRoom from "./pages/DeluxeRoom";
+import SuperDeluxeRoom from "./pages/SuperDeluxeRoom";
 
 import Booking from "./components/Booking";
 import Gallery from "./components/Gallery";
 import Contact from "./components/Contact";
+
 
 
 function App() {
@@ -24,8 +28,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/rooms" element={<Rooms />} />
+        <Route path="/single-room" element={<SingleRoom />} />
+        <Route path="/deluxe-room" element={<DeluxeRoom />} />
+        <Route path="/super-deluxe-room" element={<SuperDeluxeRoom />} />
 
-        <Route path="/booking" element={<Booking />} />     
+        <Route path="/booking" element={<Booking />} />    
         <Route path="/gallery" element={<Gallery/> }/>
         <Route path="/contact" element={<Contact />} />
 
