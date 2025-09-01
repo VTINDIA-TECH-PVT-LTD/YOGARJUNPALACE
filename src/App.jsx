@@ -14,6 +14,7 @@ import SuperDeluxeRoom from "./pages/SuperDeluxeRoom";
 import Booking from "./components/Booking";
 import Gallery from "./components/Gallery";
 import Contact from "./components/Contact";
+import TouristPlaces from "./components/TouristPlaces";
 
 
 
@@ -31,6 +32,8 @@ function App() {
         <Route path="/single-room" element={<SingleRoom />} />
         <Route path="/deluxe-room" element={<DeluxeRoom />} />
         <Route path="/super-deluxe-room" element={<SuperDeluxeRoom />} />
+
+        <Route path="/touristplaces" element={<TouristPlaces />} />
 
         <Route path="/booking" element={<Booking />} />    
         <Route path="/gallery" element={<Gallery/> }/>
