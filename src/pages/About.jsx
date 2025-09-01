@@ -22,21 +22,21 @@ const About = () => {
 
     {/* Fixed Background */}
       <div
-        id="background"
-        style={{
-          backgroundImage:
-            "url('/uploads/slider7.jpg')",
-          backgroundAttachment: "fixed",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          width: "100%",
-          height: "260%",
-          position: "absolute",
-          top: 0,
-          left: 0,
-          zIndex: -1,
-        }}
-      ></div>
+  id="background"
+  style={{
+    backgroundImage: "url('/uploads/slider7.jpg')",
+    backgroundAttachment: "fixed",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    width: "100%",
+    height: "100%",   // ✅ let it follow content height
+    position: "fixed", // ✅ stays full screen behind everything
+    top: 0,
+    left: 0,
+    zIndex: -1,
+  }}
+></div>
+
 
 
     <div id="content-absolute">
@@ -92,9 +92,9 @@ const About = () => {
                    Welcome to Yogarjun, your exquisite escape in the heart of Puri, the best hotel near the sea beach. Discover modern elegance, impeccable service, and breathtaking views that perfectly complement the serene beauty at Puri Beach Hotel. Indulge in luxury, savor exquisite dining, and make every moment memorable with us. Your tranquil retreat by the sea awaits at Hotel Yogarjun Palace, the best hotel in Puri near the sea beach.
                 </p>
 
-                <a href="room-2-cols.html" className="btn-line">
-                  <span>Choose Room</span>
-                </a>
+                <Link to="/rooms" className="btn-line">
+  <span>Choose Room</span>
+</Link>
               </div>
             </div>
 

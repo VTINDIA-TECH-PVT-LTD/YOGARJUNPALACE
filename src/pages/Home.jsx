@@ -7,7 +7,8 @@ import Timing from "../components/Timing";
 import Room from "../components/Room";
 import Testimonial from "../components/Testimonial";
 import WhyChooseUs from "../components/WhyChooseUs";
-// import TouristPlaces from "../components/TouristPlaces";
+import Rooms from "./Rooms";
+import TouristAttractions from "../components/TouristAttractions";
 
 const Home = () => {
  
@@ -21,7 +22,8 @@ const Home = () => {
        <Timing  />
        <Room />
        <WhyChooseUs />
-       {/* <TouristPlaces /> */}
+       <TouristAttractions />
+       
        <Testimonial />
 
        <Footer />

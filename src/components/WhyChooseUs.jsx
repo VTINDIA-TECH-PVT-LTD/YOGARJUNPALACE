@@ -1,14 +1,15 @@
 import React from "react";
-import { FaUtensils, FaBed, FaGlassCheers, FaTree, FaParking } from "react-icons/fa";
+import { FaUtensils, FaBed, FaGlassCheers, FaTree, FaParking,FaMapMarkerAlt } from "react-icons/fa";
 
 const WhyChooseUs = () => {
   return (
-    <section id="why-choose-us" className="py-4 bg-light">
+    <section id="why-choose-us" className="py-4 bg-light" >
       <div className="container">
         {/* Section Title */}
         <div className="row mb-4 text-center">
           <div className="col-lg-8 mx-auto">
             <h2 className="display-6 fw-bold text-dark">Why Choose Us</h2>
+            <span className="small-border"></span>
             <p className="text-muted mt-2">
               Discover the Best Hotel in Puri Near Sea Beach –{" "}
               <span className="fw-semibold">Hotel Yogarjun Palace</span>
@@ -18,6 +19,21 @@ const WhyChooseUs = () => {
 
         {/* Features Grid */}
         <div className="row g-3">
+          {/* ✅ Great Location */}
+          <div className="col-md-6">
+            <div className="d-flex p-3 bg-white shadow-sm rounded-3 h-100">
+              <span className="me-2 text-info fs-2">
+                <FaMapMarkerAlt />
+              </span>
+              <div>
+                <h5 className="fw-bold text-dark">Great Location</h5>
+                <p className="text-muted mb-0 small">
+                  We are located in Baliapanda, just minutes away from Puri Beach, the Jagannath Temple, 
+                  and other famous attractions, making it easy to explore the best of Puri.
+                </p>
+              </div>
+            </div>
+          </div>
           {/* Rooftop Restaurant */}
           <div className="col-md-6">
             <div className="d-flex p-3 bg-white shadow-sm rounded-3 h-100">
@@ -83,19 +99,20 @@ const WhyChooseUs = () => {
           </div>
 
           {/* In-House Parking */}
-          <div className="col-md-6">
-            <div className="d-flex p-3 bg-white shadow-sm rounded-3 h-100">
-              <span className="me-2 text-dark fs-2">
-                <FaParking />
-              </span>
-              <div>
-                <h5 className="fw-bold text-dark">In-House Parking</h5>
-                <p className="text-muted mb-0 small">
-                  Ensure a hassle-free stay with our in-house parking facilities.
-                </p>
-              </div>
-            </div>
-          </div>
+<div className="col-md-6 mx-auto">
+  <div className="d-flex p-3 bg-white shadow-sm rounded-3 h-100">
+    <span className="me-2 text-dark fs-2">
+      <FaParking />
+    </span>
+    <div>
+      <h5 className="fw-bold text-dark">In-House Parking</h5>
+      <p className="text-muted mb-0 small">
+        Ensure a hassle-free stay with our in-house parking facilities.
+      </p>
+    </div>
+  </div>
+</div>
+
         </div>
       </div>
     </section>

@@ -34,16 +34,19 @@ const Contact = () => {
     };
 
     return (
-        <div
-            id="backgroundll"
-            data-bgimage="url(/uploads/slider7.jpg) fixed"
-            style={{
-                minHeight: "100vh",
-                height: "auto",
-                overflowX: "hidden",
-                overflowY: "auto",
-            }}
-        >
+          <div
+  id="backgroundll"
+  style={{
+    backgroundImage: "url(/uploads/slider7.jpg)",   // ✅ actual background
+    backgroundAttachment: "fixed",                  // ✅ behaves like "fixed"
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    minHeight: "100vh",
+    height: "auto",
+    overflowX: "hidden",
+    overflowY: "auto",
+  }}
+>
             {/* Subheader */}
             <section
                 id="subheader"

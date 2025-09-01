@@ -1,95 +1,141 @@
-// src/pages/TouristPlaces.jsx
+// src/components/TouristPlaces.jsx
 import React from "react";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { motion } from "framer-motion";
+import Footer from "./Footer";
 
-const places = [
+const touristPlaces = [
   {
-    name: "Puri Beach",
-    desc: "Just 5 minutes from our hotel, perfect for sunrise walks and evening strolls.",
-    img: "https://www.adotrip.com/public/images/city/master_images/5e412e419339f-Puri_Sightseeing.jpg",
+    title: "Puri Beach",
+    desc: "Accessible to Puri Beach in just 5 minutes – relax and enjoy the golden sands and soothing waves.",
+    img: "/uploads/puri_beach.jpg",
   },
   {
-    name: "Puri Lighthouse",
-    desc: "Walkable distance to the iconic Lighthouse with panoramic views.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/9/94/Puri_Lighthouse.jpg",
+    title: "Puri Beach Lighthouse",
+    desc: "Walkable access to the iconic Puri Beach Lighthouse with stunning views of the coastline.",
+    img: "/uploads/light_house.jpg",
   },
   {
-    name: "Jagannath Temple",
-    desc: "The sacred Jagannath Temple is just a short walk away.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/e/e8/Shree_Jagannath_Temple%2C_Puri.jpg",
+    title: "Jagannath Temple",
+    desc: "Jagannath Temple is within walkable distance – experience the divine aura of this holy site.",
+    img: "/uploads/Jagannath-Temple.jpg",
   },
   {
-    name: "Marine Drive Road",
-    desc: "A peaceful seaside drive, walkable from the hotel.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/7/72/Marine_drive_puri.jpg",
+    title: "Marine Drive Road",
+    desc: "Take a peaceful walk along Marine Drive Road, soaking in the beauty of the sea and nature.",
+    img: "/uploads/marine-drive.jpg",
   },
   {
-    name: "Sakhi Gopal Temple",
-    desc: "A historic temple dedicated to Lord Krishna nearby.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/3/3c/Sakhigopal_Temple.jpg",
+    title: "Sakhi Gopal Temple",
+    desc: "Visit the sacred Sakhi Gopal Temple, known for its spiritual significance and heritage.",
+    img: "/uploads/Sakhigopala.jpg",
   },
   {
-    name: "Golden Beach, Konark & Chandrabhaga",
-    desc: "UNESCO awarded Golden Beach, Sun Temple, and Chandrabhaga close to Puri.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/0/0d/Konark_Sun_Temple_01.jpg",
+    title: "Golden Beach, Konark & Chandrabhaga",
+    desc: "Explore Golden Beach in Puri, Konark’s Sun Temple, and the serene Chandrabhaga Beach nearby.",
+    img: "/uploads/Konark.jpg",
   },
 ];
 
 const TouristPlaces = () => {
   return (
+    <>
     <section
-      className="py-16 bg-gradient-to-b from-gray-50 to-gray-100"
       id="tourist-places"
+      style={{
+        padding: "60px 0",
+        // backgroundImage: "url('/uploads/slider7.jpg')", // 🔥 change with your bg image
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        position: "relative",
+        zIndex: 1,
+      }}
     >
-      <div className="container mx-auto px-4">
-        {/* Heading */}
-        <div className="text-center mb-12">
-          <h4 className="text-blue-600 font-semibold uppercase tracking-wider">
-            Tourist Attractions
-          </h4>
-          <h2 className="text-4xl font-bold text-gray-800">
-            Explore Near{" "}
-            <span className="text-blue-600">Hotel Yogarjuna, Puri</span>
-          </h2>
-          <p className="text-gray-500 mt-3 max-w-2xl mx-auto">
-            Stay at Hotel Yogarjuna and explore the iconic landmarks of Puri.
-            From temples to beaches, experience a perfect blend of spirituality
-            and nature.
-          </p>
+      {/* Overlay for better readability */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundColor: "rgba(244, 242, 242, 1)",
+          zIndex: -1,
+        }}
+      ></div>
+
+      <div className="container">
+        {/* Section Heading */}
+        <div className="row mb-4 text-center">
+          <div className="col-lg-8 mx-auto">
+            <h2 className="fw-bold text-dark" style={{ fontSize: "28px" }}>
+              Tourist Places Near Hotel Yogarjun Palace
+            </h2>
+            <p className="text-muted mt-2" style={{ fontSize: "15px" }}>
+              Discover the nearby attractions around Puri Beach Hotel
+            </p>
+          </div>
         </div>
 
-        {/* Places Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {places.map((place, index) => (
+        {/* Places List */}
+        {touristPlaces.map((place, index) => (
+          <motion.div
+            key={index}
+            className="row align-items-center"
+            style={{ marginBottom: "35px" }}
+            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true }}
+          >
+            {/* Text */}
             <div
-              key={index}
-              className="relative group rounded-2xl overflow-hidden shadow-lg"
+              className={`col-md-6 ${
+                index % 2 === 0 ? "order-md-1" : "order-md-2"
+              }`}
+              style={{ marginBottom: "15px" }}
             >
-              {/* Fixed Aspect Ratio Box */}
-              <div className="aspect-[16/9] w-full">
-                <img
-                  src={place.img}
-                  alt={place.name}
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
-                />
-              </div>
-
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition duration-500"></div>
-
-              {/* Text */}
-              <div className="absolute bottom-5 left-5 right-5 text-white">
-                <h3 className="text-xl font-semibold flex items-center gap-2">
-                  <FaMapMarkerAlt className="text-yellow-400" />
-                  {place.name}
-                </h3>
-                <p className="text-sm text-gray-200 mt-1">{place.desc}</p>
+              <div
+                style={{
+                  padding: "20px",
+                  background: "#fff",
+                  borderRadius: "10px",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                  fontSize: "14px",
+                  lineHeight: "1.6",
+                }}
+              >
+                <h4 className="fw-bold text-dark" style={{ fontSize: "18px" }}>
+                  {place.title}
+                </h4>
+                <p className="text-muted mt-2 mb-0">{place.desc}</p>
               </div>
             </div>
-          ))}
-        </div>
+
+            {/* Image */}
+            <div
+              className={`col-md-6 ${
+                index % 2 === 0 ? "order-md-2" : "order-md-1"
+              }`}
+              style={{ marginBottom: "15px" }}
+            >
+              <motion.img
+                src={place.img}
+                alt={place.title}
+                style={{
+                  width: "100%",
+                  height: "260px",
+                  objectFit: "cover",
+                  borderRadius: "10px",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                }}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
+              />
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
+      <Footer />
+    </>
   );
 };
 

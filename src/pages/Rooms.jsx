@@ -20,7 +20,7 @@ const Rooms = () => {
     {
       id: 2,
       name: "DELUXE ROOM",
-      price: 2800,
+      price: 3000,
       img: "https://www.madebydesignesia.com/themes/seaside/images/room/1.jpg",
       hoverImg: "https://www.madebydesignesia.com/themes/seaside/images/room/1-alt.jpg",
       label: "only 2 room left",
@@ -33,7 +33,7 @@ const Rooms = () => {
     {
       id: 3,
       name: "SUPER DELUXE ROOM",
-      price: 2800,
+      price: 3500,
       img: "https://www.madebydesignesia.com/themes/seaside/images/room/1.jpg",
       hoverImg: "https://www.madebydesignesia.com/themes/seaside/images/room/1-alt.jpg",
       label: "only 2 room left",
@@ -57,8 +57,8 @@ const Rooms = () => {
           backgroundSize: "cover",
           backgroundPosition: "center",
           width: "100%",
-          height: "163%",
-          position: "absolute",
+          height: "100%",
+          position: "fixed",
           top: 0,
           left: 0,
           zIndex: -1,
