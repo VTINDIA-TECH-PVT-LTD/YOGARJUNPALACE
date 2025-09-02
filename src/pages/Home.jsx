@@ -10,6 +10,7 @@ import WhyChooseUs from "../components/WhyChooseUs";
 import Rooms from "./Rooms";
 import TouristAttractions from "../components/TouristAttractions";
 
+
 const Home = () => {
  
 
@@ -25,6 +26,7 @@ const Home = () => {
        <TouristAttractions />
        
        <Testimonial />
+       
 
        <Footer />
      

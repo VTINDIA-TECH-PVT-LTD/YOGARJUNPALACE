@@ -5,17 +5,32 @@ import Footer from "./Footer";
 const Gallery = () => {
   const galleryItems = [
     {
-      title: "Hotel A One Lagoon",
+      title: "Hotel Yogarjun Palace",
       image:
         "https://www.madebydesignesia.com/themes/seaside/images/gallery/gallery-item-2.jpg",
     },
     {
-      title: "Hotel A One Lagoon",
+      title: "Hotel Yogarjun Palace",
       image:
         "https://www.madebydesignesia.com/themes/seaside/images/gallery/gallery-item-5.jpg",
     },
     {
-      title: "Hotel A One Lagoon",
+      title: "Hotel Yogarjun Palace",
+      image:
+        "https://www.madebydesignesia.com/themes/seaside/images/gallery/gallery-item-2.jpg",
+    },
+    {
+      title: "Hotel Yogarjun Palace",
+      image:
+        "https://www.madebydesignesia.com/themes/seaside/images/gallery/gallery-item-2.jpg",
+    },
+    {
+      title: "Hotel Yogarjun Palace",
+      image:
+        "https://www.madebydesignesia.com/themes/seaside/images/gallery/gallery-item-2.jpg",
+    },
+    {
+      title: "Hotel Yogarjun Palace",
       image:
         "https://www.madebydesignesia.com/themes/seaside/images/gallery/gallery-item-2.jpg",
     },
@@ -50,7 +65,7 @@ const Gallery = () => {
           backgroundSize: "cover",
           backgroundPosition: "center",
           width: "100%",
-          height: "100%",
+          minHeight: "100vh",
           position: "fixed",
           top: 0,
           left: 0,

@@ -15,6 +15,7 @@ import Booking from "./components/Booking";
 import Gallery from "./components/Gallery";
 import Contact from "./components/Contact";
 import TouristPlaces from "./components/TouristPlaces";
+import ScrollToTopButton from "./components/ScrollToTopButton";
 
 
 
@@ -40,6 +41,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
 
       </Routes>
+      <ScrollToTopButton />
 
 
       <FloatingSocials />

@@ -1,12 +1,18 @@
 // src/pages/SingleRoom.jsx
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaUserFriends, FaRulerCombined, FaBed } from "react-icons/fa";
 import { MdHotel } from "react-icons/md";
 import Footer from "../components/Footer";
 
 const SingleRoom = () => {
-  const [reloadKey, setReloadKey] = useState(Date.now());
+  const [timestamp, setTimestamp] = useState(Date.now());
+  const location = useLocation(); // ✅ detect route changes
+
+  useEffect(() => {
+    // ✅ Reload images whenever page is visited OR navigated back
+    setTimestamp(Date.now());
+  }, [location.pathname]); // fires on route change
 
   useEffect(() => {
     // Initialize Magnific Popup
@@ -24,25 +30,27 @@ const SingleRoom = () => {
       });
     }
 
-    // Refresh images every 30 seconds
+    // Refresh every 30s
     const interval = setInterval(() => {
-      setReloadKey(Date.now());
+      setTimestamp(Date.now());
     }, 30000);
 
     return () => clearInterval(interval);
   }, []);
+
+  // Helper: add timestamp to bust cache
+  const withCacheBust = (path) => `${path}?v=${timestamp}`;
 
   const mainBg = {
     backgroundImage: "url(/uploads/single_room.jpg)",
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundAttachment: "fixed",
-    padding: "60px 0",
+    padding: "40px 0",
   };
 
   return (
     <>
-      {/* Main Section with fixed background */}
       <section id="section-main" style={mainBg} aria-label="section-menu">
         <div className="container" id="subheader" style={{ backgroundColor: "transparent" }}>
           <div className="row">
@@ -64,18 +72,15 @@ const SingleRoom = () => {
                     {/* Item 1 */}
                     <div className="item">
                       <div className="picframe">
-                        <a className="image-popup-gallery" href="/uploads/Single Room.png">
+                        <a className="image-popup-gallery" href={withCacheBust("/uploads/Single Room.png")}>
                           <span className="overlay">
-                            <span className="pf_title">
-                              <i className="icon_search"></i>
-                            </span>
+                            <span className="pf_title"><i className="icon_search"></i></span>
                             <span className="pf_caption">King size bed</span>
                           </span>
                         </a>
                         <img
-                          key={reloadKey + "-1"}
-                          src={`/uploads/Single Room.png?reload=${reloadKey}`}
-                          alt=""
+                          src={withCacheBust("/uploads/Single Room.png")}
+                          alt="Single Room"
                           className="img-fluid"
                         />
                       </div>
@@ -84,16 +89,15 @@ const SingleRoom = () => {
                     {/* Item 2 */}
                     <div className="item">
                       <div className="picframe">
-                        <a className="image-popup-gallery" href="/uploads/Room1.png">
+                        <a className="image-popup-gallery" href={withCacheBust("/uploads/Room1.png")}>
                           <span className="overlay">
                             <span className="pf_title"><i className="icon_search"></i></span>
                             <span className="pf_caption">Balcony with ocean view</span>
                           </span>
                         </a>
                         <img
-                          key={reloadKey + "-2"}
-                          src={`/uploads/Room1.png?reload=${reloadKey}`}
-                          alt=""
+                          src={withCacheBust("/uploads/Room1.png")}
+                          alt="Room1"
                           className="img-fluid"
                         />
                       </div>
@@ -102,16 +106,15 @@ const SingleRoom = () => {
                     {/* Item 3 */}
                     <div className="item">
                       <div className="picframe">
-                        <a className="image-popup-gallery" href="/uploads/Room2.png">
+                        <a className="image-popup-gallery" href={withCacheBust("/uploads/Room2.png")}>
                           <span className="overlay">
                             <span className="pf_title"><i className="icon_search"></i></span>
                             <span className="pf_caption">Large bathroom</span>
                           </span>
                         </a>
                         <img
-                          key={reloadKey + "-3"}
-                          src={`/uploads/Room2.png?reload=${reloadKey}`}
-                          alt=""
+                          src={withCacheBust("/uploads/Room2.png")}
+                          alt="Room2"
                           className="img-fluid"
                         />
                       </div>
@@ -120,16 +123,15 @@ const SingleRoom = () => {
                     {/* Item 4 */}
                     <div className="item">
                       <div className="picframe">
-                        <a className="image-popup-gallery" href="/uploads/Room3.png">
+                        <a className="image-popup-gallery" href={withCacheBust("/uploads/Room3.png")}>
                           <span className="overlay">
                             <span className="pf_title"><i className="icon_search"></i></span>
                             <span className="pf_caption">Swimming pool</span>
                           </span>
                         </a>
                         <img
-                          key={reloadKey + "-4"}
-                          src={`/uploads/Room3.png?reload=${reloadKey}`}
-                          alt=""
+                          src={withCacheBust("/uploads/Room3.png")}
+                          alt="Room3"
                           className="img-fluid"
                         />
                       </div>
