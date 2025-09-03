@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Footer from "./Footer";
 
-
 const Booking = () => {
   // State for counters
   const [adults, setAdults] = useState(1);
@@ -35,19 +34,18 @@ const Booking = () => {
 
   return (
     <div
-  id="backgroundll"
-  style={{
-    backgroundImage: "url(/uploads/slider7.jpg)",   // ✅ actual background
-    backgroundAttachment: "fixed",                  // ✅ behaves like "fixed"
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    minHeight: "100vh",
-    height: "auto",
-    overflowX: "hidden",
-    overflowY: "auto",
-  }}
->
-
+      id="backgroundll"
+      style={{
+        backgroundImage: "url(/uploads/slider7.jpg)", // ✅ actual background
+        backgroundAttachment: "fixed", // ✅ behaves like "fixed"
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+        height: "auto",
+        overflowX: "hidden",
+        overflowY: "auto",
+      }}
+    >
       {/* New Subheader Section */}
       <section id="subheader" className="no-bg">
         <div className="container">
@@ -157,12 +155,9 @@ const Booking = () => {
                       value={formData.roomType}
                       onChange={handleInputChange}
                     >
-                      <option value="Standart Room">Standart Room</option>
+                      <option value="Standart Room">Standad Room</option>
                       <option value="Deluxe Room">Deluxe Room</option>
                       <option value="Premier Room">Premier Room</option>
-                      <option value="Family Suite">Family Suite</option>
-                      <option value="Luxury Suite">Luxury Suite</option>
-                      <option value="President Suite">President Suite</option>
                     </select>
                   </div>
 
@@ -192,14 +187,17 @@ const Booking = () => {
                         required
                       />
                       <input
-                        type="text"
+                        type="tel"
                         name="phone"
                         id="phone"
                         className="form-control"
-                        placeholder="Your Phone"
+                        placeholder="Your Mobile Number"
                         value={formData.phone}
                         onChange={handleInputChange}
+                        pattern="[0-9]{10}"
+                        maxLength={10}
                         required
+                        style={{ backgroundColor: "transparent" }} // ✅ transparent background
                       />
                     </div>
 
@@ -244,7 +242,7 @@ const Booking = () => {
           </div>
         </div>
       </section>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

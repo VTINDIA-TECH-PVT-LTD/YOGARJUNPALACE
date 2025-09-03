@@ -68,6 +68,7 @@ const TouristPlaces = () => {
             <h2 className="fw-bold text-dark" style={{ fontSize: "28px" }}>
               Tourist Places Near Hotel Yogarjun Palace
             </h2>
+            <span className="small-border"></span>
             <p className="text-muted mt-2" style={{ fontSize: "15px" }}>
               Discover the nearby attractions around Puri Beach Hotel
             </p>
