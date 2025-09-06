@@ -10,12 +10,14 @@ import Rooms from "./pages/Rooms";
 import SingleRoom from "./pages/SingleRoom";
 import DeluxeRoom from "./pages/DeluxeRoom";
 import SuperDeluxeRoom from "./pages/SuperDeluxeRoom";
+import ProfileAuth from "./pages/ProfileAuth";
 
 import Booking from "./components/Booking";
 import Gallery from "./components/Gallery";
 import Contact from "./components/Contact";
 import TouristPlaces from "./components/TouristPlaces";
 import ScrollToTopButton from "./components/ScrollToTopButton";
+import LoginPopup from "./components/LoginPopup";
 
 
 
@@ -24,6 +26,7 @@ function App() {
     <>
 
       <Header />
+     
 
       <Routes>
 
@@ -40,8 +43,11 @@ function App() {
         <Route path="/gallery" element={<Gallery/> }/>
         <Route path="/contact" element={<Contact />} />
 
+        <Route path="/Profile" element={<ProfileAuth />} />
+
       </Routes>
       <ScrollToTopButton />
+      <LoginPopup />
 
 
       <FloatingSocials />
