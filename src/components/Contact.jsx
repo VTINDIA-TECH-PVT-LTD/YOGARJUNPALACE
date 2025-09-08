@@ -85,7 +85,7 @@ const Contact = () => {
                                 <div className="row" style={{ alignItems: "flex-start" }}>
                                     {/* Contact Info + Form */}
                                     <div className="col-lg-8" style={{ marginBottom: "30px" }}>
-                                        <h3>Hotel A One Lagoon</h3>
+                                        <h3>Hotel Yogarjun Palace</h3>
                                         <address style={{ lineHeight: "1.8" }}>
                                             <span>
                                                 <strong>Address:</strong> Sipasarubali Baliapanda,
