@@ -128,6 +128,9 @@ const Header = () => {
                       <li>
                         <Link to="/Profile" onClick={() => setMenuOpen(false)}> My Profile</Link>
                       </li>
+                      <li>
+                        <Link to="/UserProfile" onClick={() => setMenuOpen(false)}>User Profile </Link>
+                      </li>
                     </ul>
 
                     {/* main menu close */}

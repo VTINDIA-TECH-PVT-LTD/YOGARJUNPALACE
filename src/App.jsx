@@ -11,6 +11,11 @@ import SingleRoom from "./pages/SingleRoom";
 import DeluxeRoom from "./pages/DeluxeRoom";
 import SuperDeluxeRoom from "./pages/SuperDeluxeRoom";
 import ProfileAuth from "./pages/ProfileAuth";
+import UserProfile from "./components/UserProfile";
+import BookingDetails from "./pages/BookingDetails";
+import UpdateProfile from "./pages/UpdateProfile";
+import MyProfile from "./pages/MyProfile";
+import Invoice from "./pages/Invoice";
 
 import Booking from "./components/Booking";
 import Gallery from "./components/Gallery";
@@ -44,6 +49,11 @@ function App() {
         <Route path="/contact" element={<Contact />} />
 
         <Route path="/Profile" element={<ProfileAuth />} />
+       <Route path="/UserProfile" element={<UserProfile />} />
+       <Route path="/BookingDetails" element={<BookingDetails />} />
+       <Route path="/UserProfile" element={<UpdateProfile />} />
+       <Route path="/myprofile" element={<MyProfile />} />
+       <Route path="/invoice/:id" element={<Invoice />} />
 
       </Routes>
       <ScrollToTopButton />

@@ -25,6 +25,14 @@ const LoginPopup = () => {
     const timer = setTimeout(() => setIsOpen(false), 300); // reset after animation
     return () => clearTimeout(timer);
   }, [isOpen]);
+  
+  // ✅ Hide button completely on Profile page
+  if (isProfilePage ) {
+    return null;
+  }
+   else if (location.pathname === "/UserProfile" || location.pathname === "/BookingDetails" || location.pathname === "/myprofile" || location.pathname.startsWith("/invoice/")) { 
+    return null;
+  }
 
   return (
     <div
@@ -48,9 +56,9 @@ const LoginPopup = () => {
         transform: isOpen ? "scale(1.1)" : "scale(1)",
         transition: "transform 0.3s ease",
       }}
-      title={isProfilePage ? "Go to Home" : "Login"}
+      title={isProfilePage ? "Go to Home" : "Sign in"}
     >
-      {isProfilePage ? "Home" : "Login"}
+      {isProfilePage ? "Home" : "Sign in"}
     </div>
   );
 };
