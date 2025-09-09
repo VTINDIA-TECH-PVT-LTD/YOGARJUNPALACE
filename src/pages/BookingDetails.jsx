@@ -1,6 +1,7 @@
 // BookingDetails.js
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const BookingDetails = () => {
   const [bookings, setBookings] = useState([]);
@@ -16,14 +17,13 @@ const BookingDetails = () => {
           return;
         }
 
-        // ✅ Call your backend API with customerid
-        const response = await fetch(
-          `http://localhost:5000/api/bookings/${user.customerid}`
-        );
-        const result = await response.json();
+        // ✅ Call backend API
+        const response = await axios.post("/api/report", {
+          customerid: user.customerid,
+        });
 
-        if (result.status) {
-          setBookings(result.data); // backend should send booking array in result.data
+        if (response.data.status) {
+          setBookings(response.data.data.bookings || []);
         } else {
           setBookings([]);
         }
@@ -60,9 +60,29 @@ const BookingDetails = () => {
 
   const headerStyle = {
     textAlign: "center",
-    color: "#f8f3f3ff",
+    color: "#eaae2a",
     fontWeight: "bold",
     marginBottom: "25px",
+  };
+
+  // ✅ Map API fields to readable booking status/payment status
+  const getBookingStatus = (status) => {
+    switch (status) {
+      case "0":
+        return "Pending";
+      case "1":
+        return "Confirmed";
+      case "5":
+        return "Cancelled";
+      default:
+        return "Unknown";
+    }
+  };
+
+  const getPaymentStatus = (paid, total) => {
+    if (parseFloat(paid) >= parseFloat(total)) return "Complete";
+    if (parseFloat(paid) > 0) return "Partial";
+    return "Pending";
   };
 
   return (
@@ -89,36 +109,44 @@ const BookingDetails = () => {
               <tbody>
                 {bookings.length > 0 ? (
                   bookings.map((booking, index) => (
-                    <tr key={booking.id || index}>
+                    <tr key={booking.bookedid || index}>
                       <td>{index + 1}</td>
-                      <td>{booking.bookingNumber}</td>
-                      <td>{booking.roomType}</td>
-                      <td>{booking.checkIn}</td>
-                      <td>{booking.checkOut}</td>
-                      <td>{booking.bookingDate}</td>
+                      <td>{booking.booking_number || "N/A"}</td>
+                      <td>{booking.roomtype || "N/A"}</td>
+                      <td>{booking.checkindate?.split(" ")[0]}</td>
+                      <td>{booking.checkoutdate?.split(" ")[0]}</td>
+                      <td>{booking.date_time?.split(" ")[0]}</td>
                       <td>
                         <span
                           className={`badge ${
-                            booking.bookingStatus === "Complete"
+                            getBookingStatus(booking.bookingstatus) === "Confirmed"
                               ? "bg-success"
+                              : getBookingStatus(booking.bookingstatus) === "Cancelled"
+                              ? "bg-danger"
                               : "bg-warning text-dark"
                           }`}
                         >
-                          {booking.bookingStatus}
+                          {getBookingStatus(booking.bookingstatus)}
                         </span>
                       </td>
                       <td>
                         <span
                           className={`badge ${
-                            booking.paymentStatus === "Complete"
+                            getPaymentStatus(booking.paid_amount, booking.total_price) ===
+                            "Complete"
                               ? "bg-success"
+                              : getPaymentStatus(
+                                  booking.paid_amount,
+                                  booking.total_price
+                                ) === "Partial"
+                              ? "bg-info text-dark"
                               : "bg-secondary"
                           }`}
                         >
-                          {booking.paymentStatus}
+                          {getPaymentStatus(booking.paid_amount, booking.total_price)}
                         </span>
                       </td>
-                      <td>₹{booking.totalAmount}</td>
+                      <td>₹{booking.total_price}</td>
                       <td>
                         <button
                           className="btn btn-outline-success btn-sm"
@@ -130,8 +158,8 @@ const BookingDetails = () => {
                           }}
                           onMouseDown={(e) => e.preventDefault()}
                           onClick={() =>
-                            navigate(`/invoice/${booking.id}`, {
-                              state: booking, // ✅ send booking data to Invoice page
+                            navigate(`/invoice/${booking.bookedid}`, {
+                              state: booking,
                             })
                           }
                         >

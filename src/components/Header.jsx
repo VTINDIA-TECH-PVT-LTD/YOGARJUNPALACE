@@ -8,12 +8,25 @@ const Header = () => {
   // const navigate = useNavigate();
 
   // Load user from localStorage
+  // useEffect(() => {
+  //   const storedUser = localStorage.getItem("user");
+  //   if (storedUser) {
+  //     setUser(JSON.parse(storedUser));
+  //   }
+  // }, []);
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
+  const storedUser = localStorage.getItem("user");
+  if (storedUser && storedUser !== "undefined" && storedUser !== "null") {
+    try {
       setUser(JSON.parse(storedUser));
+    } catch (err) {
+      console.warn("Failed to parse user from localStorage", err);
+      setUser(null);
     }
-  }, []);
+  } else {
+    setUser(null);
+  }
+}, []);
 
   // // Handle logout
   // const handleLogout = () => {

@@ -50,7 +50,7 @@ const UpdateProfile = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     try {
-      const res = await axios.post("https://yogarjunpalace.com/api/updateprofile", {
+      const res = await axios.post("/api/updateprofile", {
         customerid: user.customerid,
         ...formData,
       });
