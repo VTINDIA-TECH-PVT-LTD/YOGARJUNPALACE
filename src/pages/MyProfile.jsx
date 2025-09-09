@@ -14,7 +14,7 @@ const MyProfile = () => {
     }
 
     axios
-      .post("https://yogarjunpalace.com/api/profile", {
+      .post("/api/profile", {
         customerid: user.customerid,
       })
       .then((res) => {

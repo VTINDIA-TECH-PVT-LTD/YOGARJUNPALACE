@@ -8,8 +8,19 @@ const LoginPopup = () => {
   const location = useLocation();
 
   // ✅ check login state
-  const user = JSON.parse(localStorage.getItem("user"));
-  const isLoggedIn = !!user;
+const userStr = localStorage.getItem("user");
+let user = null;
+
+if (userStr && userStr !== "undefined" && userStr !== "null") {
+  try {
+    user = JSON.parse(userStr);
+  } catch (err) {
+    console.warn("Failed to parse user from localStorage", err);
+  }
+}
+
+const isLoggedIn = !!user;
+
 
   const handleClick = () => {
     setIsOpen(true);
