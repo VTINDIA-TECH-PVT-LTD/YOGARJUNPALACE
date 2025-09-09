@@ -3,13 +3,19 @@ import axios from 'axios';
 
 const ProfileAuth = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({ email: '', password: '', name: '' });
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+    password: '',
+  });
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState('');
   const [captcha, setCaptcha] = useState('');
   const [inputCaptcha, setInputCaptcha] = useState('');
 
-  // Generate captcha when component mounts or refresh
   useEffect(() => {
     refreshCaptcha();
   }, []);
@@ -37,9 +43,12 @@ const ProfileAuth = () => {
     const errs = {};
     if (!formData.email) errs.email = 'Email is required';
     if (!formData.password) errs.password = 'Password is required';
-    if (!isLogin && !formData.name) errs.name = 'Name is required';
-    if (!inputCaptcha) errs.captcha = 'Captcha is required';
-    else if (inputCaptcha !== captcha) errs.captcha = 'Captcha does not match';
+    if (!isLogin) {
+      if (!formData.firstName) errs.firstName = 'First Name is required';
+      if (!formData.lastName) errs.lastName = 'Last Name is required';
+      if (!formData.phone) errs.phone = 'Phone Number is required';
+      if (!termsAccepted) errs.terms = 'You must accept Terms & Conditions';
+    }
     return errs;
   };
 
@@ -62,7 +71,9 @@ const ProfileAuth = () => {
         setMessage(response.data.message || 'Login successful!');
       } else {
         const response = await axios.post('/api/register', {
-          name: formData.name,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phone: formData.phone,
           email: formData.email,
           password: formData.password,
         });
@@ -104,33 +115,88 @@ const ProfileAuth = () => {
 
         <form onSubmit={handleSubmit} noValidate>
           {!isLogin && (
-            <div>
-              <input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                value={formData.name}
-                onChange={handleChange}
-                style={{
-                  width: '100%',
-                  padding: '12px 15px',
-                  margin: '10px 0',
-                  border: '1px solid #ccc',
-                  borderRadius: '6px',
-                  fontSize: '1rem',
-                  outline: 'none',
-                  backgroundColor: 'rgba(255, 255, 255, 0)',
-                  color: '#f5f5f5ff',
-                }}
-              />
-              {errors.name && <p style={{
-                color: '#d9534f',
-                fontSize: '0.85rem',
-                marginTop: '-5px',
-                marginBottom: '10px',
-              }}>{errors.name}</p>}
-            </div>
+            <>
+              <div>
+                <input
+                  type="text"
+                  name="firstName"
+                  placeholder="First Name"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  style={{
+                    width: '100%',
+                    padding: '12px 15px',
+                    margin: '10px 0',
+                    border: '1px solid #ccc',
+                    borderRadius: '6px',
+                    fontSize: '1rem',
+                    outline: 'none',
+                    backgroundColor: 'rgba(255, 255, 255, 0)',
+                    color: '#f5f5f5ff',
+                  }}
+                />
+                {errors.firstName && <p style={{
+                  color: '#d9534f',
+                  fontSize: '0.85rem',
+                  marginTop: '-5px',
+                  marginBottom: '10px',
+                }}>{errors.firstName}</p>}
+              </div>
+              <div>
+                <input
+                  type="text"
+                  name="lastName"
+                  placeholder="Last Name"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  style={{
+                    width: '100%',
+                    padding: '12px 15px',
+                    margin: '10px 0',
+                    border: '1px solid #ccc',
+                    borderRadius: '6px',
+                    fontSize: '1rem',
+                    outline: 'none',
+                    backgroundColor: 'rgba(255, 255, 255, 0)',
+                    color: '#f5f5f5ff',
+                  }}
+                />
+                {errors.lastName && <p style={{
+                  color: '#d9534f',
+                  fontSize: '0.85rem',
+                  marginTop: '-5px',
+                  marginBottom: '10px',
+                }}>{errors.lastName}</p>}
+              </div>
+              <div>
+                <input
+                  type="text"
+                  name="phone"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  style={{
+                    width: '100%',
+                    padding: '12px 15px',
+                    margin: '10px 0',
+                    border: '1px solid #ccc',
+                    borderRadius: '6px',
+                    fontSize: '1rem',
+                    outline: 'none',
+                    backgroundColor: 'rgba(255, 255, 255, 0)',
+                    color: '#f5f5f5ff',
+                  }}
+                />
+                {errors.phone && <p style={{
+                  color: '#d9534f',
+                  fontSize: '0.85rem',
+                  marginTop: '-5px',
+                  marginBottom: '10px',
+                }}>{errors.phone}</p>}
+              </div>
+            </>
           )}
+
           <div>
             <input
               type="email"
@@ -157,6 +223,7 @@ const ProfileAuth = () => {
               marginBottom: '10px',
             }}>{errors.email}</p>}
           </div>
+
           <div>
             <input
               type="password"
@@ -184,65 +251,30 @@ const ProfileAuth = () => {
             }}>{errors.password}</p>}
           </div>
 
-          {/* Captcha Section */}
-          {/* <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: '20px 0',
-          }}>
+          {!isLogin && (
             <div style={{
-              backgroundColor: 'rgba(255, 255, 255, 0)',
-              padding: '10px 20px',
-              fontFamily: 'monospace',
-              fontSize: '1.2rem',
-              letterSpacing: '2px',
-              border: '1px solid #ccc',
-              borderRadius: '5px',
-              userSelect: 'none',
-            }}>{captcha}</div>
-            <button
-              type="button"
-              onClick={refreshCaptcha}
-              title="Refresh Captcha"
-              style={{
-                marginLeft: '10px',
-                padding: '8px 12px',
-                fontSize: '1rem',
-                borderRadius: '5px',
-                border: 'none',
-                backgroundColor: '#2c5f2d',
-                color: '#fff',
-                cursor: 'pointer',
-              }}
-            >
-              ↻
-            </button>
-          </div>
-          <input
-            type="text"
-            name="inputCaptcha"
-            placeholder="Enter Captcha"
-            value={inputCaptcha}
-            onChange={(e) => setInputCaptcha(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '12px 15px',
+              display: 'flex',
+              alignItems: 'center',
               margin: '10px 0',
-              border: '1px solid #ccc',
-              borderRadius: '6px',
-              fontSize: '1rem',
-              outline: 'none',
-              backgroundColor: 'rgba(255, 255, 255, 0)',
-              color: '#f5f5f5ff',
-            }}
-          />
-          {errors.captcha && <p style={{
+              textAlign: 'left',
+            }}>
+              <input
+                type="checkbox"
+                checked={termsAccepted}
+                onChange={() => setTermsAccepted(!termsAccepted)}
+                style={{ marginRight: '10px' }}
+              />
+              <span style={{ color: '#f5f5f5ff', fontSize: '0.9rem' }}>
+                I accept the Terms & Conditions
+              </span>
+            </div>
+          )}
+          {errors.terms && <p style={{
             color: '#d9534f',
             fontSize: '0.85rem',
             marginTop: '-5px',
             marginBottom: '10px',
-          }}>{errors.captcha}</p>} */}
+          }}>{errors.terms}</p>}
 
           <button type="submit" style={{
             backgroundColor: '#ce9626ff',
@@ -264,9 +296,7 @@ const ProfileAuth = () => {
           fontSize: '0.95rem',
         }}>{message}</p>}
 
-        <div style={{
-          marginTop: '20px',
-        }}>
+        <div style={{ marginTop: '20px' }}>
           {isLogin ? (
             <>
               <button

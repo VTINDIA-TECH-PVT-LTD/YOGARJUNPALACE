@@ -12,7 +12,7 @@ export default function Booking() {
   const [formData, setFormData] = useState({
     checkInDate: "",
     checkOutDate: "",
-    roomType: "Standart Room",
+    roomType: "Standard Room",
     name: "",
     email: "",
     phone: "",
@@ -38,31 +38,45 @@ export default function Booking() {
   const increment = (setter, value) => setter(Number(value) + 1);
   const decrement = (setter, value, min = 0) => setter(Number(value) > min ? Number(value) - 1 : min);
 
+  // Helper: parse YYYY-MM-DD into a local-midnight Date to avoid timezone issues
+  const parseDateLocal = (dateString) => {
+    if (!dateString) return null;
+    const parts = dateString.split("-");
+    if (parts.length !== 3) return null;
+    const [y, m, d] = parts.map(Number);
+    if (Number.isNaN(y) || Number.isNaN(m) || Number.isNaN(d)) return null;
+    return new Date(y, m - 1, d); // local midnight
+  };
+
   // Form validation
   const validateForm = () => {
     const errs = {};
 
+    // Prepare dates (local-midnight)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const checkIn = parseDateLocal(formData.checkInDate);
+    const checkOut = parseDateLocal(formData.checkOutDate);
+
     // Check-in Date (required and not in the past)
     if (!formData.checkInDate) {
       errs.checkInDate = "Please select a check-in date.";
-    } else {
-      const checkIn = new Date(formData.checkInDate);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      if (checkIn < today) {
-        errs.checkInDate = "Check-in date cannot be in the past.";
-      }
+    } else if (!checkIn) {
+      errs.checkInDate = "Invalid check-in date.";
+    } else if (checkIn < today) {
+      errs.checkInDate = "Check-in date cannot be in the past. Please choose today or a future date.";
     }
 
-    // Check-out Date (required and after check-in date)
+    // Check-out Date (required, not in the past, and not before check-in)
     if (!formData.checkOutDate) {
       errs.checkOutDate = "Please select a check-out date.";
-    } else if (formData.checkInDate) {
-      const checkIn = new Date(formData.checkInDate);
-      const checkOut = new Date(formData.checkOutDate);
-      if (checkOut <= checkIn) {
-        errs.checkOutDate = "Check-out date must be after check-in date.";
-      }
+    } else if (!checkOut) {
+      errs.checkOutDate = "Invalid check-out date.";
+    } else if (checkOut < today) {
+      errs.checkOutDate = "Check-out date cannot be in the past.";
+    } else if (checkIn && checkOut < checkIn) {
+      errs.checkOutDate = "Check-out date cannot be before check-in date.";
     }
 
     // Name
@@ -244,9 +258,9 @@ export default function Booking() {
                       onChange={handleInputChange}
                       aria-invalid={errors.roomType ? "true" : "false"}
                     >
-                      <option value="Standart Room">Standad Room</option>
+                      <option value="Standart Room">Single Room</option>
                       <option value="Deluxe Room">Deluxe Room</option>
-                      <option value="Premier Room">Premier Room</option>
+                      <option value="Premier Room">Super Deluxe Room</option>
                     </select>
                     {errors.roomType && <small className="text-danger d-block">{errors.roomType}</small>}
                   </div>
