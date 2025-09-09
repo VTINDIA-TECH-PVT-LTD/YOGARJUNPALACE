@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const ProfileAuth = () => {
+  const navigate = useNavigate(); 
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -53,36 +55,59 @@ const ProfileAuth = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const errs = validateForm();
-    if (Object.keys(errs).length) {
-      setErrors(errs);
-      return;
-    }
-    setErrors({});
-    setMessage('');
+  e.preventDefault();
+  const errs = validateForm();
+  if (Object.keys(errs).length) {
+    setErrors(errs);
+    return;
+  }
+  setErrors({});
+  setMessage('');
 
-    try {
-      if (isLogin) {
-        const response = await axios.post('/api/login', {
-          email: formData.email,
-          password: formData.password,
-        });
-        setMessage(response.data.message || 'Login successful!');
+  try {
+    if (isLogin) {
+      // 🔹 LOGIN API call
+      const response = await axios.post("/api/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (response.data.status) {
+        setMessage(response.data.message || "Login successful!");
+
+        // Save user details in localStorage
+        localStorage.setItem("user", JSON.stringify(response.data.data));
+        navigate("/");
       } else {
-        const response = await axios.post('/api/register', {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          phone: formData.phone,
-          email: formData.email,
-          password: formData.password,
-        });
-        setMessage(response.data.message || 'Registration successful!');
+        setMessage(response.data.message || "Login failed!");
       }
-    } catch (error) {
-      setMessage(error.response?.data?.message || 'An error occurred.');
+    } else {
+      // 🔹 SIGNUP API call
+      const response = await axios.post("/api/signup", {
+        f_name: formData.firstName,
+        l_name: formData.lastName,
+        phone: formData.phone,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (response.data.status) {
+        setMessage(response.data.message || "Registration successful!");
+
+        // Save user details in localStorage
+        localStorage.setItem("user", JSON.stringify(response.data.data));
+
+        // Switch back to login after successful signup
+        setIsLogin(true);
+      } else {
+        setMessage(response.data.message || "Registration failed!");
+      }
     }
-  };
+  } catch (error) {
+    setMessage(error.response?.data?.message || "An error occurred.");
+  }
+};
+
 
   return (
     <div style={{

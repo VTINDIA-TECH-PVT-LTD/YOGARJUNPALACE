@@ -1,17 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const UpdateProfile = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
-    phone: "",
+    cust_phone: "",
     dob: "",
     profession: "",
-    nationality: "Native",
-    nationalId: "",
+    isnationality: "Native",
+    pid: "",
     address: "",
   });
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || !user.customerid) {
+      alert("⚠️ Please login first!");
+      window.location.href = "/login";
+      return;
+    }
+
+    // Pre-fill form with existing user data
+    setFormData({
+      firstname: user.firstname || "",
+      lastname: user.lastname || "",
+      email: user.email || "",
+      cust_phone: user.cust_phone || "",
+      dob: user.dob || "",
+      profession: user.profession || "",
+      isnationality: user.isnationality || "Native",
+      pid: user.pid || "",
+      address: user.address || "",
+    });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,19 +44,35 @@ const UpdateProfile = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Updated Data:", formData);
-    // Here you can integrate the API call
-    alert("Profile updated successfully!");
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    try {
+      const res = await axios.post("https://yogarjunpalace.com/api/updateprofile", {
+        customerid: user.customerid,
+        ...formData,
+      });
+
+      if (res.data.status) {
+        alert("✅ Profile updated successfully!");
+        // Update localStorage with new data
+        localStorage.setItem("user", JSON.stringify({ ...user, ...formData }));
+      } else {
+        alert("❌ Failed to update profile");
+      }
+    } catch (err) {
+      console.error("Update profile error:", err);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (
     <div className="container ">
-      <h2 className="mb-4  text-center" style={{ color: "#f2f1efff" }}>
+      <h2 className="mb-4 text-center" style={{ color: "#f2f1efff" }}>
         Update Customer
       </h2>
-      {/* <div className="de-content-overlay"> */}
       <div className="card-body">
         <form onSubmit={handleSubmit}>
           <div className="row g-3">
@@ -42,9 +81,9 @@ const UpdateProfile = () => {
               <label className="form-label">First Name *</label>
               <input
                 type="text"
-                name="firstName"
+                name="firstname"
                 className="form-control"
-                value={formData.firstName}
+                value={formData.firstname}
                 onChange={handleChange}
                 required
                 style={{
@@ -60,9 +99,9 @@ const UpdateProfile = () => {
               <label className="form-label">Last Name *</label>
               <input
                 type="text"
-                name="lastName"
+                name="lastname"
                 className="form-control"
-                value={formData.lastName}
+                value={formData.lastname}
                 onChange={handleChange}
                 required
                 style={{
@@ -96,9 +135,9 @@ const UpdateProfile = () => {
               <label className="form-label">Phone *</label>
               <input
                 type="text"
-                name="phone"
+                name="cust_phone"
                 className="form-control"
-                value={formData.phone}
+                value={formData.cust_phone}
                 onChange={handleChange}
                 placeholder="Example: 880180499***"
                 required
@@ -155,9 +194,9 @@ const UpdateProfile = () => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="nationality"
+                  name="isnationality"
                   value="Native"
-                  checked={formData.nationality === "Native"}
+                  checked={formData.isnationality === "Native"}
                   onChange={handleChange}
                 />
                 <label className="form-check-label">Native</label>
@@ -166,9 +205,9 @@ const UpdateProfile = () => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="nationality"
+                  name="isnationality"
                   value="Foreigner"
-                  checked={formData.nationality === "Foreigner"}
+                  checked={formData.isnationality === "Foreigner"}
                   onChange={handleChange}
                 />
                 <label className="form-check-label">Foreigner</label>
@@ -180,9 +219,9 @@ const UpdateProfile = () => {
               <label className="form-label">National ID</label>
               <input
                 type="text"
-                name="nationalId"
+                name="pid"
                 className="form-control"
-                value={formData.nationalId}
+                value={formData.pid}
                 onChange={handleChange}
                 placeholder="Enter national ID"
                 style={{
@@ -213,19 +252,17 @@ const UpdateProfile = () => {
 
             {/* Submit Button */}
             <div className="col-12 text-end">
-              <button type="submit" className="btn btn-success" style={{
-                              width: "90px", // fixed width
-                              height: "32px", // fixed height
-                            //   padding: "4px 8px",
-                            //   boxShadow: "none",
-                            }}>
+              <button
+                type="submit"
+                className="btn btn-success"
+                style={{ width: "90px", height: "32px" }}
+              >
                 Update
               </button>
             </div>
           </div>
         </form>
       </div>
-      {/* </div> */}
     </div>
   );
 };

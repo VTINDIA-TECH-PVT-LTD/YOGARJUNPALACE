@@ -1,68 +1,40 @@
 // BookingDetails.js
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";  // ✅ import useNavigate
+import { useNavigate } from "react-router-dom";
 
 const BookingDetails = () => {
   const [bookings, setBookings] = useState([]);
-  const navigate = useNavigate();  // ✅ initialize navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchBookings = () => {
-      const data = [
-        {
-          id: 1,
-          bookingNumber: "00000006",
-          roomType: "Delux",
-          checkIn: "2025-09-07 00:00:00",
-          checkOut: "2025-09-08 00:00:00",
-          bookingDate: "2025-09-07 18:11:31",
-          bookingStatus: "Pending",
-          paymentStatus: "Pending",
-          totalAmount: "2500.00",
-          guestName: "John Doe",   
-          address: "Bhubaneswar, Odisha",
-          passportNo: "AB123456",
-          room: "Delux Room",
-          adults: 2,
-        },
-        {
-          id: 2,
-          bookingNumber: "00000004",
-          roomType: "Delux",
-          checkIn: "2025-08-23 00:00:00",
-          checkOut: "2025-08-24 00:00:00",
-          bookingDate: "2025-08-23 12:05:55",
-          bookingStatus: "Pending",
-          paymentStatus: "Pending",
-          totalAmount: "2500.00",
-          guestName: "Alice Smith",
-          address: "Cuttack, Odisha",
-          passportNo: "XY987654",
-          room: "Delux Room",
-          adults: 3,
-        },
-        {
-          id: 3,
-          bookingNumber: "00000003",
-          roomType: "SUPPER DELUX",
-          checkIn: "2025-08-19 00:00:00",
-          checkOut: "2025-08-20 00:00:00",
-          bookingDate: "2025-08-19 12:47:14",
-          bookingStatus: "Complete",
-          paymentStatus: "Complete",
-          totalAmount: "118.00",
-          guestName: "Rahul Kumar",
-          address: "Puri, Odisha",
-          passportNo: "CD456789",
-          room: "Super Delux Room",
-          adults: 1,
-        },
-      ];
-      setBookings(data);
+    const fetchBookings = async () => {
+      try {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user || !user.customerid) {
+          alert("⚠️ Please login first!");
+          navigate("/login");
+          return;
+        }
+
+        // ✅ Call your backend API with customerid
+        const response = await fetch(
+          `http://localhost:5000/api/bookings/${user.customerid}`
+        );
+        const result = await response.json();
+
+        if (result.status) {
+          setBookings(result.data); // backend should send booking array in result.data
+        } else {
+          setBookings([]);
+        }
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+        setBookings([]);
+      }
     };
 
     fetchBookings();
-  }, []);
+  }, [navigate]);
 
   // Inline styles
   const containerStyle = {
@@ -94,95 +66,93 @@ const BookingDetails = () => {
   };
 
   return (
-    <>
-      <div style={containerStyle}>
-        <div style={{ width: "100%" }}>
-          <h2 style={headerStyle}>Booking Details</h2>
-          <div style={overlayStyle}>
-            <div style={{ overflowX: "auto" }}>
-              <table className="table table-hover align-middle">
-                <thead className="table-light">
-                  <tr>
-                    <th>SL</th>
-                    <th>Booking Number</th>
-                    <th>Room Type</th>
-                    <th>Check In</th>
-                    <th>Check Out</th>
-                    <th>Booking Date</th>
-                    <th>Booking Status</th>
-                    <th>Payment Status</th>
-                    <th>Total Amount</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bookings.length > 0 ? (
-                    bookings.map((booking, index) => (
-                      <tr key={booking.id}>
-                        <td>{index + 1}</td>
-                        <td>{booking.bookingNumber}</td>
-                        <td>{booking.roomType}</td>
-                        <td>{booking.checkIn}</td>
-                        <td>{booking.checkOut}</td>
-                        <td>{booking.bookingDate}</td>
-                        <td>
-                          <span
-                            className={`badge ${
-                              booking.bookingStatus === "Complete"
-                                ? "bg-success"
-                                : "bg-warning text-dark"
-                            }`}
-                          >
-                            {booking.bookingStatus}
-                          </span>
-                        </td>
-                        <td>
-                          <span
-                            className={`badge ${
-                              booking.paymentStatus === "Complete"
-                                ? "bg-success"
-                                : "bg-secondary"
-                            }`}
-                          >
-                            {booking.paymentStatus}
-                          </span>
-                        </td>
-                        <td>₹{booking.totalAmount}</td>
-                        <td>
-                          <button
-                            className="btn btn-outline-success btn-sm"
-                            style={{
-                              width: "90px", // fixed width
-                              height: "32px", // fixed height
-                              padding: "4px 8px",
-                              boxShadow: "none",
-                            }}
-                            onMouseDown={(e) => e.preventDefault()} // prevents active zoom
-                            onClick={() =>
-                              navigate(`/invoice/${booking.id}`, {
-                                state: booking, // ✅ send booking data
-                              })
-                            }
-                          >
-                            Invoice
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="10" style={{ textAlign: "center" }}>
-                        No bookings available.
+    <div style={containerStyle}>
+      <div style={{ width: "100%" }}>
+        <h2 style={headerStyle}>Booking Details</h2>
+        <div style={overlayStyle}>
+          <div style={{ overflowX: "auto" }}>
+            <table className="table table-hover align-middle">
+              <thead className="table-light">
+                <tr>
+                  <th>SL</th>
+                  <th>Booking Number</th>
+                  <th>Room Type</th>
+                  <th>Check In</th>
+                  <th>Check Out</th>
+                  <th>Booking Date</th>
+                  <th>Booking Status</th>
+                  <th>Payment Status</th>
+                  <th>Total Amount</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bookings.length > 0 ? (
+                  bookings.map((booking, index) => (
+                    <tr key={booking.id || index}>
+                      <td>{index + 1}</td>
+                      <td>{booking.bookingNumber}</td>
+                      <td>{booking.roomType}</td>
+                      <td>{booking.checkIn}</td>
+                      <td>{booking.checkOut}</td>
+                      <td>{booking.bookingDate}</td>
+                      <td>
+                        <span
+                          className={`badge ${
+                            booking.bookingStatus === "Complete"
+                              ? "bg-success"
+                              : "bg-warning text-dark"
+                          }`}
+                        >
+                          {booking.bookingStatus}
+                        </span>
+                      </td>
+                      <td>
+                        <span
+                          className={`badge ${
+                            booking.paymentStatus === "Complete"
+                              ? "bg-success"
+                              : "bg-secondary"
+                          }`}
+                        >
+                          {booking.paymentStatus}
+                        </span>
+                      </td>
+                      <td>₹{booking.totalAmount}</td>
+                      <td>
+                        <button
+                          className="btn btn-outline-success btn-sm"
+                          style={{
+                            width: "90px",
+                            height: "32px",
+                            padding: "4px 8px",
+                            boxShadow: "none",
+                          }}
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() =>
+                            navigate(`/invoice/${booking.id}`, {
+                              state: booking, // ✅ send booking data to Invoice page
+                            })
+                          }
+                        >
+                          Invoice
+                        </button>
                       </td>
                     </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="10" style={{ textAlign: "center" }}>
+                      No bookings available.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
