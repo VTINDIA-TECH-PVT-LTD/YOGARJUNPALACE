@@ -67,7 +67,7 @@ const ProfileAuth = () => {
   try {
     if (isLogin) {
       // 🔹 LOGIN API call
-      const response = await axios.post("/api/login", {
+      const response = await axios.post("https://yogarjunpalace.com/api/login", {
         email: formData.email,
         password: formData.password,
       });
@@ -83,7 +83,7 @@ const ProfileAuth = () => {
       }
     } else {
       // 🔹 SIGNUP API call
-      const response = await axios.post("/api/signup", {
+      const response = await axios.post("https://yogarjunpalace.com/api/signup", {
         f_name: formData.firstName,
         l_name: formData.lastName,
         phone: formData.phone,
