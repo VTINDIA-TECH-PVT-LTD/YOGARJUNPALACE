@@ -20,6 +20,8 @@ const MyProfile = () => {
       .then((res) => {
         if (res.data.status) {
           setProfile(res.data.data);
+          console.log("Profile data:", res.data.data);
+          
         } else {
           alert("Failed to fetch profile");
         }
