@@ -25,15 +25,27 @@ import ScrollToTopButton from "./components/ScrollToTopButton";
 import LoginPopup from "./components/LoginPopup";
 
 
+const PrivateRoute = ({ element }) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user) {
+    // If not logged in, redirect to login (ProfileAuth page)
+    return <ProfileAuth />;
+  }
+
+  return element;
+};
+
+
 
 function App() {
   return (
     <>
 
       <Header />
-     
 
-      <Routes>
+
+      {/* <Routes>
 
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -55,7 +67,44 @@ function App() {
        <Route path="/myprofile" element={<MyProfile />} />
        <Route path="/invoice/:id" element={<Invoice />} />
 
+      </Routes> */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/rooms" element={<Rooms />} />
+        <Route path="/single-room" element={<SingleRoom />} />
+        <Route path="/deluxe-room" element={<DeluxeRoom />} />
+        <Route path="/super-deluxe-room" element={<SuperDeluxeRoom />} />
+
+        <Route path="/touristplaces" element={<TouristPlaces />} />
+        <Route path="/booking" element={<PrivateRoute element={<Booking />} />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/contact" element={<Contact />} />
+
+        {/* Login/Register page */}
+        <Route path="/profile" element={<ProfileAuth />} />
+
+        {/* Protected routes */}
+        <Route
+          path="/userprofile"
+          element={<PrivateRoute element={<UserProfile />} />}
+        />
+        <Route
+          path="/updateprofile"
+          element={<PrivateRoute element={<UpdateProfile />} />}
+        />
+        <Route
+          path="/bookingdetails"
+          element={<PrivateRoute element={<BookingDetails />} />}
+        />
+        <Route
+          path="/myprofile"
+          element={<PrivateRoute element={<MyProfile />} />}
+        />
+
+        <Route path="/invoice/:id" element={<Invoice />} />
       </Routes>
+
       <ScrollToTopButton />
       <LoginPopup />
 

@@ -1,9 +1,28 @@
-import React, { useState } from "react";
+import React, { useState,useNavigate,useEffect } from "react";
 import { Link } from "react-router-dom";
 import YogarjunLogo from "../assets/YogarjunLogo.png";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  // const navigate = useNavigate();
+
+  // Load user from localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  // // Handle logout
+  // const handleLogout = () => {
+  //   localStorage.removeItem("user");
+  //   setUser(null);
+  //   setMenuOpen(false);
+  //   navigate("/profile");
+  // };
+
 
   // Toggle menu open/close
   const handleMenuToggle = () => {
