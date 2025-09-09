@@ -64,13 +64,23 @@ const ProfileAuth = () => {
     setErrors({});
     setMessage('');
 
-    try {
-      if (isLogin) {
-        // 🔹 LOGIN API call
-        const response = await axios.post("/api/login", {
-          email: formData.email,
-          password: formData.password,
-        });
+
+//     try {
+//       if (isLogin) {
+//         // 🔹 LOGIN API call
+//         const response = await axios.post("/api/login", {
+//           email: formData.email,
+//           password: formData.password,
+//         });
+
+  try {
+    if (isLogin) {
+      // 🔹 LOGIN API call
+      const response = await axios.post("https://yogarjunpalace.com/api/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+
 
         if (response.data.status) {
           setMessage(response.data.message || "Login successful!");
@@ -81,15 +91,29 @@ const ProfileAuth = () => {
         } else {
           setMessage(response.data.message || "Login failed!");
         }
-      } else {
-        // 🔹 SIGNUP API call
-        const response = await axios.post("/api/signup", {
-          f_name: formData.firstName,
-          l_name: formData.lastName,
-          phone: formData.phone,
-          email: formData.email,
-          password: formData.password,
-        });
+//       } else {
+// <<<<<<< feature/pralin
+//         // 🔹 SIGNUP API call
+//         const response = await axios.post("/api/signup", {
+//           f_name: formData.firstName,
+//           l_name: formData.lastName,
+//           phone: formData.phone,
+//           email: formData.email,
+//           password: formData.password,
+//         });
+// =======
+//         setMessage(response.data.message || "Login failed!");
+//       }
+    } else {
+      // 🔹 SIGNUP API call
+      const response = await axios.post("https://yogarjunpalace.com/api/signup", {
+        f_name: formData.firstName,
+        l_name: formData.lastName,
+        phone: formData.phone,
+        email: formData.email,
+        password: formData.password,
+      });
+// >>>>>>> main
 
         if (response.data.status) {
           setMessage(response.data.message || "Registration successful!");
