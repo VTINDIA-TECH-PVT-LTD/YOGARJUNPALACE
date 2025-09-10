@@ -24,6 +24,9 @@ import TouristPlaces from "./components/TouristPlaces";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import LoginPopup from "./components/LoginPopup";
 
+import RoomDetails from "./pages/RoomDetails";
+import Checkout from "./pages/Checkout";
+
 
 const PrivateRoute = ({ element }) => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -101,6 +104,11 @@ function App() {
           path="/myprofile"
           element={<PrivateRoute element={<MyProfile />} />}
         />
+
+        {/* Room details and checkout routes */}
+
+        <Route path="/roomdetails" element={<RoomDetails />} />
+        <Route path="/checkout" element={<Checkout />} />
 
         <Route path="/invoice/:id" element={<Invoice />} />
       </Routes>
