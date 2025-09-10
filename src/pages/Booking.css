@@ -1,0 +1,119 @@
+/* --- Overlay form card --- */
+.de-content-overlay {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 30px;
+  border-radius: 16px;
+  color: white;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Counters (+/-) --- */
+.de-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.de-number span {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ff6600;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.de-number span:hover {
+  background: #e65500;
+}
+
+.de-number input {
+  width: 50px;
+  text-align: center;
+  border: none;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* --- Date pickers --- */
+form input[type="date"] {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+form input[type="date"]:focus {
+  border-color: #ff6600;
+  outline: none;
+  box-shadow: 0px 0px 8px rgba(255, 102, 0, 0.4);
+}
+
+/* --- Room cards --- */
+.de-room {
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.de-room:hover {
+  transform: translateY(-8px);
+}
+
+.de-room .d-image {
+  position: relative;
+}
+
+.de-room .d-label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #ff6600;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.de-room img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.de-room .d-text {
+  padding: 15px;
+}
+
+.de-room h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.de-room .btn-line {
+  display: inline-block;
+  padding: 8px 18px;
+  margin-top: 10px;
+  border: 2px solid #ff6600;
+  color: #ff6600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.de-room .btn-line:hover {
+  background: #ff6600;
+  color: white;
+}
