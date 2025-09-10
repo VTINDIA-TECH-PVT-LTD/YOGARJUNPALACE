@@ -320,10 +320,7 @@
 // }
 // src/pages/Booking.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // ✅ needed for navigation
-import axios from "axios"; // ✅ import axios
 import Footer from "./Footer";
-import "../pages/Booking.css"; // ✅ import custom CSS
 
 export default function Booking() {
   // State for counters
@@ -336,12 +333,9 @@ export default function Booking() {
     checkOutDate: "",
   });
 
-  // State for validation & results
+  // Validation errors
   const [errors, setErrors] = useState({});
-  const [rooms, setRooms] = useState([]); // ✅ available rooms from API
-  const [loading, setLoading] = useState(false);
 
-  // Input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -352,7 +346,7 @@ export default function Booking() {
     });
   };
 
-  // Increment/decrement counters
+  // Increase/decrease counters
   const increment = (setter, value) => setter(Number(value) + 1);
   const decrement = (setter, value, min = 0) =>
     setter(Number(value) > min ? Number(value) - 1 : min);
@@ -365,7 +359,7 @@ export default function Booking() {
     return new Date(y, m - 1, d);
   };
 
-  // Validation
+  // Form validation
   const validateForm = () => {
     const errs = {};
     const today = new Date();
@@ -394,7 +388,7 @@ export default function Booking() {
     return errs;
   };
 
-  // 🔎 Check availability with axios
+  // New function to check availability
   const handleCheckAvailability = async () => {
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
@@ -406,17 +400,25 @@ export default function Booking() {
     setRooms([]);
 
     const payload = {
-      checkin: formData.checkInDate,
-      checkout: formData.checkOutDate,
-      children,
+      checkInDate: formData.checkInDate,
+      checkOutDate: formData.checkOutDate,
       adults,
+      children,
+      rooms,
+      roomType: formData.roomType,
     };
 
     try {
-      const res = await axios.post(
-        "/api/roomlist",
-        payload,
-        { headers: { "Content-Type": "application/json" } }
+      console.log("🔎 Checking availability with payload:", payload);
+
+      // Replace with your real API endpoint
+      const res = await fetch(
+        "https://yogarjunpalace.com/api/check-availability",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
       );
 
       console.log("✅ API response:", res.data);
@@ -512,92 +514,83 @@ export default function Booking() {
                       )}
                     </div>
 
-                    <div className="col-md-6">
-                      <h4>Children</h4>
-                      <div className="de-number">
-                        <span
-                          className="d-minus"
-                          onClick={() => decrement(setChildren, children, 0)}
-                        >
-                          -
-                        </span>
-                        <input type="text" readOnly value={children} />
-                        <span
-                          className="d-plus"
-                          onClick={() => increment(setChildren, children)}
-                        >
-                          +
-                        </span>
+                          <div className="col-md-4">
+                            <h4>Children</h4>
+                            <div className="de-number">
+                              <span
+                                className="d-minus"
+                                onClick={() =>
+                                  decrement(setChildren, children, 0)
+                                }
+                              >
+                                -
+                              </span>
+                              <input
+                                id="children"
+                                type="text"
+                                readOnly
+                                value={children}
+                              />
+                              <span
+                                className="d-plus"
+                                onClick={() => increment(setChildren, children)}
+                              >
+                                +
+                              </span>
+                            </div>
+                            {errors.children && (
+                              <small className="text-danger d-block">
+                                {errors.children}
+                              </small>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                      {errors.children && (
-                        <small className="text-danger">{errors.children}</small>
-                      )}
                     </div>
                   </div>
 
-                  <p className="mt20 text-center">
-                    <button
-                      type="button"
-                      className="btn btn-line"
-                      style={{ width: "220px", height: "55px" }}
-                      onClick={handleCheckAvailability}
-                      disabled={loading}
+                  <div className="col-md-12">
+                    <div
+                      className="g-recaptcha"
+                      data-sitekey="6LdW03QgAAAAAJko8aINFd1eJUdHlpvT4vNKakj6"
+                    ></div>
+                    {errors.recaptcha && (
+                      <small className="text-danger d-block">
+                        {errors.recaptcha}
+                      </small>
+                    )}
+
+                    <p
+                      id="submit"
+                      className="mt20"
+                      style={{ textAlign: "center" }}
                     >
-                      {loading ? "Checking..." : "Check Availability"}
-                    </button>
-                  </p>
+                      <button
+                        type="button"
+                        id="check_availability"
+                        className="btn btn-line"
+                        style={{
+                          width: "220px", // fixed width
+                          height: "55px", // fixed height
+                          fontSize: "16px",
+                        }}
+                        onClick={handleCheckAvailability}
+                      >
+                        Check Availability
+                      </button>
+                    </p>
+                  </div>
                 </form>
+
+                <div id="success_message" className="success">
+                  Your reservation has been sent successfully.
+                </div>
+                <div id="error_message" className="error">
+                  Sorry, error occurred this time sending your message.
+                </div>
               </div>
             </div>
           </div>
-
-          {/* ✅ Available Rooms Section */}
-          {rooms.length > 0 && (
-            <div className="row g-4 mt-5">
-              {rooms.map((room, idx) => (
-                <div className="col-lg-4" key={idx}>
-                  <div className="de-room">
-                    <div className="d-image">
-                      <div className="d-label">
-                        {room.roomstatus === "0"
-                          ? "Available"
-                          : "Not Available"}
-                      </div>
-                      <div className="d-details">
-                        <span className="d-meta-1">
-                          <img src="/assets/images/ui/user.svg" alt="Guests" />{" "}
-                          {room.capacity} Guests
-                        </span>
-                        <span className="d-meta-2">
-                          <img
-                            src="/assets/images/ui/floorplan.svg"
-                            alt="Size"
-                          />{" "}
-                          {room.roomsize} {room.roomsizemesurement}²
-                        </span>
-                      </div>
-
-                      <Link to={`/room/${room.roomid}`}>
-                        <img
-                          src={room.room_imagename}
-                          className="img-fluid"
-                          alt={room.roomtype}
-                        />
-                      </Link>
-                    </div>
-
-                    <div className="d-text">
-                      <h3>{room.roomtype}</h3>
-                      <p>{room.roomdescription || "Comfortable stay."}</p>
-                      <Link to={`/room/${room.roomid}`} className="btn-line">
-                        <span>Book Now For ₹{room.rate}</span>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       </section>
 
