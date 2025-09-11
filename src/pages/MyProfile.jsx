@@ -1,5 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {
+  FaUser,
+  FaEnvelope,
+  FaPhone,
+  FaBirthdayCake,
+  FaBriefcase,
+  FaGlobe,
+  FaIdCard,
+  FaMapMarkerAlt,
+  FaUserCircle,
+  FaEdit,
+} from "react-icons/fa";
 
 const MyProfile = () => {
   const [profile, setProfile] = useState(null);
@@ -14,14 +26,10 @@ const MyProfile = () => {
     }
 
     axios
-      .post("/api/profile", {
-        customerid: user.customerid,
-      })
+      .post("/api/profile", { customerid: user.customerid })
       .then((res) => {
         if (res.data.status) {
           setProfile(res.data.data);
-          console.log("Profile data:", res.data.data);
-          
         } else {
           alert("Failed to fetch profile");
         }
@@ -33,90 +41,150 @@ const MyProfile = () => {
       });
   }, []);
 
-  if (loading) return <p style={{ textAlign: "center" }}>Loading profile...</p>;
+  if (loading)
+    return <p style={{ textAlign: "center", marginTop: "40px" }}>⏳ Loading profile...</p>;
 
-  if (!profile) return <p style={{ textAlign: "center" }}>No profile found</p>;
+  if (!profile)
+    return (
+      <p style={{ textAlign: "center", marginTop: "40px", fontWeight: "bold", color: "#b6862c" }}>
+        🚫 No profile found
+      </p>
+    );
 
-  // Inline styles
-  const containerStyle = {
-    backgroundColor: "#ffffff",
-    padding: "20px",
-    borderRadius: "10px",
-    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-    maxWidth: "700px",
-    margin: "auto",
-  };
-
-  const titleStyle = {
-    color: "#eaae2aff",
-    fontWeight: "bold",
-    marginBottom: "20px",
-    textAlign: "center",
-  };
-
-  const rowStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "15px",
-  };
-
-  const labelStyle = {
-    fontWeight: "500",
-    color: "#6c757d",
-    width: "40%",
-  };
-
-  const valueStyle = {
-    width: "60%",
-    color: "#333333",
-  };
+  const fields = [
+    { label: "Name", value: `${profile.firstname} ${profile.lastname}`, icon: <FaUser /> },
+    { label: "Email", value: profile.email, icon: <FaEnvelope /> },
+    { label: "Phone", value: profile.cust_phone || "Not provided", icon: <FaPhone /> },
+    { label: "Date of Birth", value: profile.dob || "Not provided", icon: <FaBirthdayCake /> },
+    { label: "Profession", value: profile.profession || "Not provided", icon: <FaBriefcase /> },
+    { label: "Nationality", value: profile.isnationality || "Not provided", icon: <FaGlobe /> },
+    { label: "PID", value: profile.pid || "Not provided", icon: <FaIdCard /> },
+    { label: "Address", value: profile.address || "Not provided", icon: <FaMapMarkerAlt /> },
+  ];
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2 style={titleStyle}>Profile Details</h2>
-      <div style={containerStyle}>
-        <div style={rowStyle}>
-          <div style={labelStyle}>Name</div>
-          <div style={valueStyle}>
-            {profile.firstname} {profile.lastname}
-          </div>
+    <div className="container py-4">
+      <div className="profile-card shadow-sm p-4 rounded">
+        {/* Profile Header */}
+        <div className="text-center mb-4">
+          <FaUserCircle size={70} color="#b6862c" />
+          <h2 className="mt-2 profile-title">My Profile</h2>
         </div>
 
-        <div style={rowStyle}>
-          <div style={labelStyle}>Email</div>
-          <div style={valueStyle}>{profile.email}</div>
+        {/* Profile Details Grid */}
+        <div className="profile-grid">
+          {fields.map((field, idx) => (
+            <div key={idx} className="profile-item">
+              <div className="label">
+                <span className="icon">{field.icon}</span>
+                {field.label}
+              </div>
+              <div className="value">{field.value}</div>
+            </div>
+          ))}
         </div>
 
-        <div style={rowStyle}>
-          <div style={labelStyle}>Phone</div>
-          <div style={valueStyle}>{profile.cust_phone || "Not provided"}</div>
-        </div>
-
-        <div style={rowStyle}>
-          <div style={labelStyle}>Date of Birth</div>
-          <div style={valueStyle}>{profile.dob || "Not provided"}</div>
-        </div>
-
-        <div style={rowStyle}>
-          <div style={labelStyle}>Profession</div>
-          <div style={valueStyle}>{profile.profession || "Not provided"}</div>
-        </div>
-
-        <div style={rowStyle}>
-          <div style={labelStyle}>Nationality</div>
-          <div style={valueStyle}>{profile.isnationality || "Not provided"}</div>
-        </div>
-
-        <div style={rowStyle}>
-          <div style={labelStyle}>PID</div>
-          <div style={valueStyle}>{profile.pid || "Not provided"}</div>
-        </div>
-
-        <div style={rowStyle}>
-          <div style={labelStyle}>Address</div>
-          <div style={valueStyle}>{profile.address || "Not provided"}</div>
-        </div>
+        {/* Edit Profile Button */}
+        {/* <div className="text-center mt-3">
+          <button className="edit-btn">
+            <FaEdit className="me-1" /> Edit Profile
+          </button>
+        </div> */}
       </div>
+
+      {/* Styling */}
+      <style>
+        {`
+          .profile-card {
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            max-width: 800px;
+            margin: auto;
+            padding: 25px;
+            animation: fadeIn 0.5s ease-in-out;
+          }
+
+          .profile-title {
+            color: #b6862c;
+            font-weight: 600;
+            font-size: 22px;
+          }
+
+          /* Two-column grid */
+          .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px 24px;
+          }
+
+          .profile-item {
+            background: #fafafa;
+            border: 1px solid #f1f1f1;
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.3s ease;
+          }
+
+          .profile-item:hover {
+            background: #fff;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+          }
+
+          .label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+          }
+
+          .label .icon {
+            color: #b6862c;
+            font-size: 13px;
+          }
+
+          .value {
+            color: #333;
+            font-weight: 600;
+            font-size: 15px;
+          }
+
+          .edit-btn {
+            background: #b6862c;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+          }
+
+          .edit-btn:hover {
+            background: #a6741a;
+            transform: translateY(-2px);
+          }
+
+          @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+
+          @media (max-width: 768px) {
+            .profile-grid {
+              grid-template-columns: 1fr;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };

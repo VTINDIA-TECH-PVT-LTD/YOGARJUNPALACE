@@ -1,8 +1,51 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const RoomDetails = () => {
   const [showModal, setShowModal] = useState(false);
+  const [roomData, setRoomData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const { roomid } = useParams();
+  const location = useLocation();
+  const { checkin, checkout, adults, children } = location.state || {};
+
+  useEffect(() => {
+    const fetchRoomDetails = async () => {
+      try {
+        const res = await axios.post("/api/roomdetails", {
+          roomid,
+          checkin,
+          checkout,
+          adults,
+          children,
+        });
+
+        if (res.data.status) {
+          setRoomData(res.data.data);
+        }
+      } catch (error) {
+        console.error("❌ Error fetching room details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (roomid) {
+      fetchRoomDetails();
+    }
+  }, [roomid, checkin, checkout, adults, children]);
+
+  if (loading) {
+    return <div className="text-center py-5">Loading room details...</div>;
+  }
+
+  if (!roomData) {
+    return <div className="text-center py-5 text-danger">Room not found!</div>;
+  }
+
+  const { roominfo, condition } = roomData;
 
   return (
     <div className="booking-page">
@@ -22,37 +65,33 @@ const RoomDetails = () => {
                     <p>
                       <strong>Check In</strong>
                       <br />
-                      Wednesday, Sep 10 2025
-                      <br />
-                      From 12:00 PM
+                      {checkin} <br /> From 12:00 PM
                     </p>
                     <p>
                       <strong>Check Out</strong>
                       <br />
-                      Thursday, Sep 11 2025
-                      <br />
-                      Until 10:00 AM
+                      {checkout} <br /> Until 10:00 AM
                     </p>
 
                     <p>
-                      <strong>SUPPER DELUX</strong>
+                      <strong>{roominfo.roomtype}</strong>
                       <br />
-                      Adults: 2
+                      Adults: {adults}
                       <br />
-                      Room Size: 2
+                      Room Size: {roominfo.roomsize}
                       <br />
                       No of Room: 1
                     </p>
 
                     <p>
-                      18% Tax: ₹18
+                      18% Tax: ₹{(roominfo.rate * 0.18).toFixed(0)}
                       <br />
-                      7% Service Charge: ₹7
+                      7% Service Charge: ₹{(roominfo.rate * 0.07).toFixed(0)}
                     </p>
 
                     <div className="d-flex justify-content-between align-items-center">
                       <button className="btn btn-sm btn-warning">Apply</button>
-                      <h6 className="text-success fw-bold mb-0">₹125</h6>
+                      <h6 className="text-success fw-bold mb-0">₹{roominfo.rate}</h6>
                     </div>
                   </div>
 
@@ -81,53 +120,29 @@ const RoomDetails = () => {
 
                 {/* Right Form */}
                 <div className="col-md-8">
-                  <h5 className="fw-bold mb-3 setheading">
-                    ENTER YOUR DETAILS
-                  </h5>
+                  <h5 className="fw-bold mb-3 setheading">ENTER YOUR DETAILS</h5>
                   <form>
                     <div className="row g-3">
                       <div className="col-md-6">
                         <label className="form-label">First Name *</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Enter first name"
-                        />
+                        <input type="text" className="form-control" placeholder="Enter first name" />
                       </div>
                       <div className="col-md-6">
                         <label className="form-label">Last Name *</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Enter last name"
-                        />
+                        <input type="text" className="form-control" placeholder="Enter last name" />
                       </div>
                       <div className="col-md-6">
                         <label className="form-label">Email *</label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          placeholder="example@email.com"
-                        />
+                        <input type="email" className="form-control" placeholder="example@email.com" />
                       </div>
                       <div className="col-md-6">
                         <label className="form-label">Phone *</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="9876543210"
-                        />
-                        <small className="text-muted">
-                          No + sign. Example: 9876543210
-                        </small>
+                        <input type="text" className="form-control" placeholder="9876543210" />
+                        <small className="text-muted">No + sign. Example: 9876543210</small>
                       </div>
                       <div className="col-12">
                         <label className="form-label">Address</label>
-                        <textarea
-                          className="form-control"
-                          rows="2"
-                          placeholder="Enter your address"
-                        ></textarea>
+                        <textarea className="form-control" rows="2" placeholder="Enter your address"></textarea>
                       </div>
                     </div>
 
@@ -135,9 +150,15 @@ const RoomDetails = () => {
                     <div className="mt-4 p-3 border rounded bg-light">
                       <h6 className="fw-bold">Room</h6>
                       <div className="d-flex align-items-center">
-                        <div className="room-img bg-secondary me-3"></div>
+                        {roominfo.room_images && (
+                          <img
+                            src={roominfo.room_images[0]}
+                            alt={roominfo.roomtype}
+                            className="room-img me-3"
+                          />
+                        )}
                         <div>
-                          <p className="mb-1 fw-bold">SUPPER DELUX</p>
+                          <p className="mb-1 fw-bold">{roominfo.roomtype}</p>
                           <p
                             className="mb-0 text-primary"
                             style={{ cursor: "pointer" }}
@@ -151,24 +172,27 @@ const RoomDetails = () => {
 
                     <div className="mt-3">
                       <label className="form-label">Full Guest Name</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Enter guest full name"
-                      />
+                      <input type="text" className="form-control" placeholder="Enter guest full name" />
                     </div>
 
                     <div className="mt-3">
                       <label className="form-label">Special Requests</label>
-                      <textarea
-                        className="form-control"
-                        rows="3"
-                        placeholder="Write requests in English"
-                      ></textarea>
+                      <textarea className="form-control" rows="3" placeholder="Write requests in English"></textarea>
                     </div>
 
                     <div className="text-end mt-4">
-                      <Link to="/checkout">
+                      <Link
+                        to="/checkout"
+                        state={{
+                          roomid,
+                          checkin,
+                          checkout,
+                          adults,
+                          children,
+                          rate: roominfo.rate,
+                          roomtype: roominfo.roomtype,
+                        }}
+                      >
                         <button type="button" className="btn btn-success px-4">
                           Next: Final details
                         </button>
@@ -187,25 +211,22 @@ const RoomDetails = () => {
         <div className="custom-modal-overlay">
           <div className="custom-modal">
             <h5 className="fw-bold mb-3 modalheading">Booking Conditions</h5>
-            <p className="modalheading">
-              ✅ Free cancellation within 24 hours.
-              <br />
-              ✅ ID proof required at check-in.
-              <br />
-              ✅ Taxes included in the final price.
-              <br />✅ No hidden charges.
-            </p>
+            {condition && condition.length > 0 ? (
+              <ul>
+                {condition.map((c) => (
+                  <li key={c.slid}>
+                    <strong>{c.title}</strong>: {c.subtitle}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No conditions available</p>
+            )}
             <div className="text-end">
-              <button
-                className="btn btn-secondary me-2"
-                onClick={() => setShowModal(false)}
-              >
+              <button className="btn btn-secondary me-2" onClick={() => setShowModal(false)}>
                 Close
               </button>
-              <button
-                className="btn btn-success"
-                onClick={() => setShowModal(false)}
-              >
+              <button className="btn btn-success" onClick={() => setShowModal(false)}>
                 Agree
               </button>
             </div>
@@ -218,11 +239,9 @@ const RoomDetails = () => {
         .setheading {
           color: black;
         }
-
         .modalheading {
           color: black;
         }
-
         .booking-page {
           background: url("/uploads/slider7.jpg") no-repeat center center fixed;
           background-size: cover;
@@ -237,6 +256,7 @@ const RoomDetails = () => {
           width: 80px;
           height: 80px;
           border-radius: 8px;
+          object-fit: cover;
         }
         .small-box {
           background: rgba(255, 255, 255, 0.8);

@@ -127,7 +127,7 @@
 //       console.log("✅ API response:", data);
 
 //       if (data.status) {
-//         alert(`✅ Rooms are available: ${data.availableRooms} left`);
+//         alert(✅ Rooms are available: ${data.availableRooms} left);
 //       } else {
 //         alert("❌ No rooms available for the selected dates.");
 //       }
@@ -320,21 +320,23 @@
 // }
 // src/pages/Booking.jsx
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import Footer from "./Footer";
+import "../pages/Booking.css";
 
 export default function Booking() {
-  // State for counters
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
 
-  // State for form inputs
   const [formData, setFormData] = useState({
     checkInDate: "",
     checkOutDate: "",
   });
 
-  // Validation errors
   const [errors, setErrors] = useState({});
+  const [rooms, setRooms] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -346,12 +348,10 @@ export default function Booking() {
     });
   };
 
-  // Increase/decrease counters
   const increment = (setter, value) => setter(Number(value) + 1);
   const decrement = (setter, value, min = 0) =>
     setter(Number(value) > min ? Number(value) - 1 : min);
 
-  // Parse date helper
   const parseDateLocal = (dateString) => {
     if (!dateString) return null;
     const [y, m, d] = dateString.split("-").map(Number);
@@ -359,7 +359,6 @@ export default function Booking() {
     return new Date(y, m - 1, d);
   };
 
-  // Form validation
   const validateForm = () => {
     const errs = {};
     const today = new Date();
@@ -388,7 +387,6 @@ export default function Booking() {
     return errs;
   };
 
-  // New function to check availability
   const handleCheckAvailability = async () => {
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
@@ -400,26 +398,16 @@ export default function Booking() {
     setRooms([]);
 
     const payload = {
-      checkInDate: formData.checkInDate,
-      checkOutDate: formData.checkOutDate,
-      adults,
+      checkin: formData.checkInDate,
+      checkout: formData.checkOutDate,
       children,
-      rooms,
-      roomType: formData.roomType,
+      adults,
     };
 
     try {
-      console.log("🔎 Checking availability with payload:", payload);
-
-      // Replace with your real API endpoint
-      const res = await fetch(
-        "https://yogarjunpalace.com/api/check-availability",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      );
+      const res = await axios.post("/api/roomlist", payload, {
+        headers: { "Content-Type": "application/json" },
+      });
 
       console.log("✅ API response:", res.data);
 
@@ -456,7 +444,6 @@ export default function Booking() {
       <section id="section-main" className="no-bg no-top">
         <div className="container">
           <div className="row">
-            {/* Booking Form */}
             <div className="col-lg-6 offset-lg-3">
               <div className="de-content-overlay">
                 <form id="contact_form" noValidate>
@@ -490,7 +477,6 @@ export default function Booking() {
                     </small>
                   )}
 
-                  {/* Counters */}
                   <div className="row mt-3">
                     <div className="col-md-6">
                       <h4>Adults</h4>
@@ -514,83 +500,106 @@ export default function Booking() {
                       )}
                     </div>
 
-                          <div className="col-md-4">
-                            <h4>Children</h4>
-                            <div className="de-number">
-                              <span
-                                className="d-minus"
-                                onClick={() =>
-                                  decrement(setChildren, children, 0)
-                                }
-                              >
-                                -
-                              </span>
-                              <input
-                                id="children"
-                                type="text"
-                                readOnly
-                                value={children}
-                              />
-                              <span
-                                className="d-plus"
-                                onClick={() => increment(setChildren, children)}
-                              >
-                                +
-                              </span>
-                            </div>
-                            {errors.children && (
-                              <small className="text-danger d-block">
-                                {errors.children}
-                              </small>
-                            )}
-                          </div>
-                        </div>
+                    <div className="col-md-6">
+                      <h4>Children</h4>
+                      <div className="de-number">
+                        <span
+                          className="d-minus"
+                          onClick={() => decrement(setChildren, children, 0)}
+                        >
+                          -
+                        </span>
+                        <input type="text" readOnly value={children} />
+                        <span
+                          className="d-plus"
+                          onClick={() => increment(setChildren, children)}
+                        >
+                          +
+                        </span>
                       </div>
+                      {errors.children && (
+                        <small className="text-danger">{errors.children}</small>
+                      )}
                     </div>
                   </div>
 
-                  <div className="col-md-12">
-                    <div
-                      className="g-recaptcha"
-                      data-sitekey="6LdW03QgAAAAAJko8aINFd1eJUdHlpvT4vNKakj6"
-                    ></div>
-                    {errors.recaptcha && (
-                      <small className="text-danger d-block">
-                        {errors.recaptcha}
-                      </small>
-                    )}
-
-                    <p
-                      id="submit"
-                      className="mt20"
-                      style={{ textAlign: "center" }}
+                  <p className="mt20 text-center">
+                    <button
+                      type="button"
+                      className="btn btn-line"
+                      style={{ width: "220px", height: "55px" }}
+                      onClick={handleCheckAvailability}
+                      disabled={loading}
                     >
-                      <button
-                        type="button"
-                        id="check_availability"
-                        className="btn btn-line"
-                        style={{
-                          width: "220px", // fixed width
-                          height: "55px", // fixed height
-                          fontSize: "16px",
-                        }}
-                        onClick={handleCheckAvailability}
-                      >
-                        Check Availability
-                      </button>
-                    </p>
-                  </div>
+                      {loading ? "Checking..." : "Check Availability"}
+                    </button>
+                  </p>
                 </form>
-
-                <div id="success_message" className="success">
-                  Your reservation has been sent successfully.
-                </div>
-                <div id="error_message" className="error">
-                  Sorry, error occurred this time sending your message.
-                </div>
               </div>
             </div>
           </div>
+
+          {rooms.length > 0 && (
+            <div className="row g-4 mt-5">
+              {rooms.map((room, idx) => (
+                <div className="col-lg-4" key={idx}>
+                  <div className="de-room">
+                    <div className="d-image">
+                      <div className="d-label">
+                        {room.roomstatus === "0"
+                          ? "Available"
+                          : "Not Available"}
+                      </div>
+                      <div className="d-details">
+                        <span className="d-meta-1">
+                          <img src="/assets/images/ui/user.svg" alt="Guests" />{" "}
+                          {room.capacity} Guests
+                        </span>
+                        <span className="d-meta-2">
+                          <img
+                            src="/assets/images/ui/floorplan.svg"
+                            alt="Size"
+                          />{" "}
+                          {room.roomsize} {room.roomsizemesurement}²
+                        </span>
+                      </div>
+
+                      <Link to={`/room/${room.roomid}`}>
+                        <img
+                          src={
+                            room.room_imagename ||
+                            "/assets/images/default-room.jpg"
+                          }
+                          className="img-fluid"
+                          alt={room.roomtype}
+                        />
+                      </Link>
+                    </div>
+
+                    <div className="d-text">
+                      <h3>{room.roomtype}</h3>
+                      <p>{room.roomdescription || "Comfortable stay."}</p>
+                      {/* <Link to={`/room/${room.roomid}`} className="btn-line">
+                        <span>Book Now For ₹{room.rate}</span>
+                      </Link> */}
+                      <Link
+                        to={`/room/${room.roomid}`}
+                        state={{
+                          checkin: formData.checkInDate,
+                          checkout: formData.checkOutDate,
+                          adults,
+                          children,
+                        }}
+                        className="btn-line"
+                      >
+                        <span>Book Now For ₹{room.rate}</span>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {
+  FaUser,
+  FaEnvelope,
+  FaPhone,
+  FaBirthdayCake,
+  FaBriefcase,
+  FaGlobe,
+  FaIdCard,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 
 const UpdateProfile = () => {
   const [formData, setFormData] = useState({
@@ -22,7 +32,6 @@ const UpdateProfile = () => {
       return;
     }
 
-    // Pre-fill form with existing user data
     setFormData({
       firstname: user.firstname || "",
       lastname: user.lastname || "",
@@ -46,9 +55,7 @@ const UpdateProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const user = JSON.parse(localStorage.getItem("user"));
-
     try {
       const res = await axios.post("/api/updateprofile", {
         customerid: user.customerid,
@@ -57,7 +64,6 @@ const UpdateProfile = () => {
 
       if (res.data.status) {
         alert("✅ Profile updated successfully!");
-        // Update localStorage with new data
         localStorage.setItem("user", JSON.stringify({ ...user, ...formData }));
       } else {
         alert("❌ Failed to update profile");
@@ -68,17 +74,25 @@ const UpdateProfile = () => {
     }
   };
 
+  const inputStyle = {
+    background: "transparent",
+    border: "1px solid #ccc",
+    color: "#fff",
+  };
+
   return (
-    <div className="container ">
+    <div className="container" style={{ marginTop: "60px" }}>
       <h2 className="mb-4 text-center" style={{ color: "#f2f1efff" }}>
-        Update Customer
+        Update Profile
       </h2>
       <div className="card-body">
         <form onSubmit={handleSubmit}>
           <div className="row g-3">
             {/* First Name */}
             <div className="col-md-6">
-              <label className="form-label">First Name *</label>
+              <label className="form-label">
+                <FaUser className="me-1 text-warning" /> First Name *
+              </label>
               <input
                 type="text"
                 name="firstname"
@@ -86,17 +100,15 @@ const UpdateProfile = () => {
                 value={formData.firstname}
                 onChange={handleChange}
                 required
-                style={{
-                  background: "transparent",
-                  border: "1px solid #ccc",
-                  color: "#fff",
-                }}
+                style={inputStyle}
               />
             </div>
 
             {/* Last Name */}
             <div className="col-md-6">
-              <label className="form-label">Last Name *</label>
+              <label className="form-label">
+                <FaUser className="me-1 text-warning" /> Last Name *
+              </label>
               <input
                 type="text"
                 name="lastname"
@@ -104,17 +116,15 @@ const UpdateProfile = () => {
                 value={formData.lastname}
                 onChange={handleChange}
                 required
-                style={{
-                  background: "transparent",
-                  border: "1px solid #ccc",
-                  color: "#fff",
-                }}
+                style={inputStyle}
               />
             </div>
 
             {/* Email */}
             <div className="col-md-6">
-              <label className="form-label">Email *</label>
+              <label className="form-label">
+                <FaEnvelope className="me-1 text-warning" /> Email *
+              </label>
               <input
                 type="email"
                 name="email"
@@ -122,17 +132,15 @@ const UpdateProfile = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                style={{
-                  background: "transparent",
-                  border: "1px solid #ccc",
-                  color: "#fff",
-                }}
+                style={inputStyle}
               />
             </div>
 
             {/* Phone */}
             <div className="col-md-6">
-              <label className="form-label">Phone *</label>
+              <label className="form-label">
+                <FaPhone className="me-1 text-warning" /> Phone *
+              </label>
               <input
                 type="text"
                 name="cust_phone"
@@ -141,11 +149,7 @@ const UpdateProfile = () => {
                 onChange={handleChange}
                 placeholder="Example: 880180499***"
                 required
-                style={{
-                  background: "transparent",
-                  border: "1px solid #ccc",
-                  color: "#fff",
-                }}
+                style={inputStyle}
               />
               <small className="form-text" style={{ color: "#ffffff" }}>
                 Add prefix without + sign. Example: (88)0180499***
@@ -154,24 +158,24 @@ const UpdateProfile = () => {
 
             {/* Date of Birth */}
             <div className="col-md-6">
-              <label className="form-label">Date of Birth</label>
+              <label className="form-label">
+                <FaBirthdayCake className="me-1 text-warning" /> Date of Birth
+              </label>
               <input
                 type="date"
                 name="dob"
                 className="form-control"
                 value={formData.dob}
                 onChange={handleChange}
-                style={{
-                  background: "transparent",
-                  border: "1px solid #ccc",
-                  color: "#fff",
-                }}
+                style={inputStyle}
               />
             </div>
 
             {/* Profession */}
             <div className="col-md-6">
-              <label className="form-label">Profession</label>
+              <label className="form-label">
+                <FaBriefcase className="me-1 text-warning" /> Profession
+              </label>
               <input
                 type="text"
                 name="profession"
@@ -179,44 +183,47 @@ const UpdateProfile = () => {
                 value={formData.profession}
                 onChange={handleChange}
                 placeholder="Your profession"
-                style={{
-                  background: "transparent",
-                  border: "1px solid #ccc",
-                  color: "#fff",
-                }}
+                style={inputStyle}
               />
             </div>
 
             {/* Nationality */}
             <div className="col-md-6">
-              <label className="form-label d-block">Nationality</label>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="isnationality"
-                  value="Native"
-                  checked={formData.isnationality === "Native"}
-                  onChange={handleChange}
-                />
-                <label className="form-check-label">Native</label>
-              </div>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="isnationality"
-                  value="Foreigner"
-                  checked={formData.isnationality === "Foreigner"}
-                  onChange={handleChange}
-                />
-                <label className="form-check-label">Foreigner</label>
+              <label className="form-label d-block">
+                <FaGlobe className="me-1 text-warning" /> Nationality
+              </label>
+              <div className="d-flex gap-3 mt-1">
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="isnationality"
+                    value="Native"
+                    checked={formData.isnationality === "Native"}
+                    onChange={handleChange}
+                  />
+                  <label className="form-check-label">Native</label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="isnationality"
+                    value="Foreigner"
+                    checked={formData.isnationality === "Foreigner"}
+                    onChange={handleChange}
+                  />
+                  <label className="form-check-label">Foreigner</label>
+                </div>
               </div>
             </div>
 
+
             {/* National ID */}
             <div className="col-md-6">
-              <label className="form-label">National ID</label>
+              <label className="form-label">
+                <FaIdCard className="me-1 text-warning" /> National ID
+              </label>
               <input
                 type="text"
                 name="pid"
@@ -224,17 +231,15 @@ const UpdateProfile = () => {
                 value={formData.pid}
                 onChange={handleChange}
                 placeholder="Enter national ID"
-                style={{
-                  background: "transparent",
-                  border: "1px solid #ccc",
-                  color: "#fff",
-                }}
+                style={inputStyle}
               />
             </div>
 
             {/* Address */}
             <div className="col-12">
-              <label className="form-label">Address</label>
+              <label className="form-label">
+                <FaMapMarkerAlt className="me-1 text-warning" /> Address
+              </label>
               <textarea
                 name="address"
                 className="form-control"
@@ -242,11 +247,7 @@ const UpdateProfile = () => {
                 onChange={handleChange}
                 rows="3"
                 placeholder="Enter address"
-                style={{
-                  background: "transparent",
-                  border: "1px solid #ccc",
-                  color: "#fff",
-                }}
+                style={inputStyle}
               ></textarea>
             </div>
 

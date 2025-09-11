@@ -81,6 +81,7 @@ function App() {
 
         <Route path="/touristplaces" element={<TouristPlaces />} />
         <Route path="/booking" element={<PrivateRoute element={<Booking />} />} />
+        <Route path="/room/:roomid" element={<RoomDetails />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
 
@@ -107,7 +108,7 @@ function App() {
 
         {/* Room details and checkout routes */}
 
-        <Route path="/roomdetails" element={<RoomDetails />} />
+        {/* <Route path="/roomdetails" element={<RoomDetails />} /> */}
         <Route path="/checkout" element={<Checkout />} />
 
         <Route path="/invoice/:id" element={<Invoice />} />
