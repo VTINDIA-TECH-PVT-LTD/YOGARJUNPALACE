@@ -64,64 +64,34 @@ const ProfileAuth = () => {
     setErrors({});
     setMessage('');
 
-
-//     try {
-//       if (isLogin) {
-//         // 🔹 LOGIN API call
-//         const response = await axios.post("/api/login", {
-//           email: formData.email,
-//           password: formData.password,
-//         });
-
-  try {
-    if (isLogin) {
-      // 🔹 LOGIN API call
-      const response = await axios.post("/api/login", {
-        email: formData.email,
-        password: formData.password,
-      });
-
+    try {
+      if (isLogin) {
+        // 🔹 LOGIN API call
+        const response = await axios.post("/api/login", {
+          email: formData.email,
+          password: formData.password,
+        });
 
         if (response.data.status) {
           setMessage(response.data.message || "Login successful!");
-
-          // Save user details in localStorage
           localStorage.setItem("user", JSON.stringify(response.data.data));
           navigate("/");
         } else {
           setMessage(response.data.message || "Login failed!");
         }
-//       } else {
-// <<<<<<< feature/pralin
-//         // 🔹 SIGNUP API call
-//         const response = await axios.post("/api/signup", {
-//           f_name: formData.firstName,
-//           l_name: formData.lastName,
-//           phone: formData.phone,
-//           email: formData.email,
-//           password: formData.password,
-//         });
-// =======
-//         setMessage(response.data.message || "Login failed!");
-//       }
-    } else {
-      // 🔹 SIGNUP API call
-      const response = await axios.post("/api/signup", {
-        f_name: formData.firstName,
-        l_name: formData.lastName,
-        phone: formData.phone,
-        email: formData.email,
-        password: formData.password,
-      });
-// >>>>>>> main
+      } else {
+        // 🔹 SIGNUP API call
+        const response = await axios.post("/api/signup", {
+          f_name: formData.firstName,
+          l_name: formData.lastName,
+          phone: formData.phone,
+          email: formData.email,
+          password: formData.password,
+        });
 
         if (response.data.status) {
           setMessage(response.data.message || "Registration successful!");
-
-          // Save user details in localStorage
           localStorage.setItem("user", JSON.stringify(response.data.data));
-
-          // Switch back to login after successful signup
           setIsLogin(true);
         } else {
           setMessage(response.data.message || "Registration failed!");
@@ -171,24 +141,9 @@ const ProfileAuth = () => {
                   placeholder="First Name"
                   value={formData.firstName}
                   onChange={handleChange}
-                  style={{
-                    width: '100%',
-                    padding: '12px 15px',
-                    margin: '10px 0',
-                    border: '1px solid #ccc',
-                    borderRadius: '6px',
-                    fontSize: '1rem',
-                    outline: 'none',
-                    backgroundColor: 'rgba(255, 255, 255, 0)',
-                    color: '#f5f5f5ff',
-                  }}
+                  style={inputStyle}
                 />
-                {errors.firstName && <p style={{
-                  color: '#d9534f',
-                  fontSize: '0.85rem',
-                  marginTop: '-5px',
-                  marginBottom: '10px',
-                }}>{errors.firstName}</p>}
+                {errors.firstName && <p style={errorStyle}>{errors.firstName}</p>}
               </div>
               <div>
                 <input
@@ -197,24 +152,9 @@ const ProfileAuth = () => {
                   placeholder="Last Name"
                   value={formData.lastName}
                   onChange={handleChange}
-                  style={{
-                    width: '100%',
-                    padding: '12px 15px',
-                    margin: '10px 0',
-                    border: '1px solid #ccc',
-                    borderRadius: '6px',
-                    fontSize: '1rem',
-                    outline: 'none',
-                    backgroundColor: 'rgba(255, 255, 255, 0)',
-                    color: '#f5f5f5ff',
-                  }}
+                  style={inputStyle}
                 />
-                {errors.lastName && <p style={{
-                  color: '#d9534f',
-                  fontSize: '0.85rem',
-                  marginTop: '-5px',
-                  marginBottom: '10px',
-                }}>{errors.lastName}</p>}
+                {errors.lastName && <p style={errorStyle}>{errors.lastName}</p>}
               </div>
               <div>
                 <input
@@ -223,24 +163,9 @@ const ProfileAuth = () => {
                   placeholder="Phone Number"
                   value={formData.phone}
                   onChange={handleChange}
-                  style={{
-                    width: '100%',
-                    padding: '12px 15px',
-                    margin: '10px 0',
-                    border: '1px solid #ccc',
-                    borderRadius: '6px',
-                    fontSize: '1rem',
-                    outline: 'none',
-                    backgroundColor: 'rgba(255, 255, 255, 0)',
-                    color: '#f5f5f5ff',
-                  }}
+                  style={inputStyle}
                 />
-                {errors.phone && <p style={{
-                  color: '#d9534f',
-                  fontSize: '0.85rem',
-                  marginTop: '-5px',
-                  marginBottom: '10px',
-                }}>{errors.phone}</p>}
+                {errors.phone && <p style={errorStyle}>{errors.phone}</p>}
               </div>
             </>
           )}
@@ -252,24 +177,9 @@ const ProfileAuth = () => {
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              style={{
-                width: '100%',
-                padding: '12px 15px',
-                margin: '10px 0',
-                border: '1px solid #ccc',
-                borderRadius: '6px',
-                fontSize: '1rem',
-                outline: 'none',
-                backgroundColor: 'rgba(255, 255, 255, 0)',
-                color: '#f5f5f5ff',
-              }}
+              style={inputStyle}
             />
-            {errors.email && <p style={{
-              color: '#d9534f',
-              fontSize: '0.85rem',
-              marginTop: '-5px',
-              marginBottom: '10px',
-            }}>{errors.email}</p>}
+            {errors.email && <p style={errorStyle}>{errors.email}</p>}
           </div>
 
           <div>
@@ -279,24 +189,9 @@ const ProfileAuth = () => {
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              style={{
-                width: '100%',
-                padding: '12px 15px',
-                margin: '10px 0',
-                border: '1px solid #ccc',
-                borderRadius: '6px',
-                fontSize: '1rem',
-                outline: 'none',
-                backgroundColor: 'rgba(255, 255, 255, 0)',
-                color: '#f5f5f5ff',
-              }}
+              style={inputStyle}
             />
-            {errors.password && <p style={{
-              color: '#d9534f',
-              fontSize: '0.85rem',
-              marginTop: '-5px',
-              marginBottom: '10px',
-            }}>{errors.password}</p>}
+            {errors.password && <p style={errorStyle}>{errors.password}</p>}
           </div>
 
           {!isLogin && (
@@ -317,58 +212,44 @@ const ProfileAuth = () => {
               </span>
             </div>
           )}
-          {errors.terms && <p style={{
-            color: '#d9534f',
-            fontSize: '0.85rem',
-            marginTop: '-5px',
-            marginBottom: '10px',
-          }}>{errors.terms}</p>}
+          {errors.terms && <p style={errorStyle}>{errors.terms}</p>}
 
-          <button type="submit" style={{
-            backgroundColor: '#ce9626ff',
-            color: '#fff',
-            border: 'none',
-            padding: '14px 28px',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontSize: '1rem',
-            fontWeight: '600',
-            transition: 'all 0.3s ease',
-            width: '100%',
-            maxWidth: '300px',
-            marginTop: '15px',
-            boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
-          }}
-          onMouseOver={(e) => (e.target.style.backgroundColor = '#b47c1d')}
-          onMouseOut={(e) => (e.target.style.backgroundColor = '#ce9626ff')}
+          <button type="submit" style={buttonStyle}
+            onMouseOver={(e) => (e.target.style.backgroundColor = '#b47c1d')}
+            onMouseOut={(e) => (e.target.style.backgroundColor = '#ce9626ff')}
           >
             {isLogin ? 'Login' : 'Register'}
           </button>
         </form>
 
-        {/* 🔹 Attractive Message Box */}
+        {/* 🔹 Professional Message Box */}
         {message && (
           <div
             style={{
               backgroundColor: message.toLowerCase().includes("success")
-                ? "#d4edda"
-                : "#f8d7da",
+                ? "rgba(40, 167, 69, 0.1)" // soft green
+                : "rgba(220, 53, 69, 0.1)", // soft red
               color: message.toLowerCase().includes("success")
-                ? "#155724"
-                : "#721c24",
-              border: `1px solid ${
-                message.toLowerCase().includes("success") ? "#c3e6cb" : "#f5c6cb"
+                ? "#28a745"
+                : "#dc3545",
+              borderLeft: `4px solid ${
+                message.toLowerCase().includes("success") ? "#28a745" : "#dc3545"
               }`,
-              padding: "12px 18px",
-              borderRadius: "8px",
+              padding: "10px 14px",
+              borderRadius: "4px",
               marginTop: "15px",
-              fontSize: "0.95rem",
+              fontSize: "0.9rem",
               fontWeight: "500",
-              textAlign: "center",
-              boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
+              textAlign: "left",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
               animation: "fadeIn 0.5s ease-in-out",
             }}
           >
+            <span style={{ fontSize: "18px" }}>
+              {message.toLowerCase().includes("success") ? "✅" : "⚠️"}
+            </span>
             {message}
           </div>
         )}
@@ -378,56 +259,26 @@ const ProfileAuth = () => {
             <>
               <button
                 onClick={() => alert('Forgot password flow')}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#ecedecff',
-                  cursor: 'pointer',
-                  textDecoration: 'underline',
-                  fontSize: '0.9rem',
-                  padding: 0,
-                }}
+                style={linkButtonStyle}
               >
                 Forgot Password?
               </button>
-              <p style={{
-                fontSize: '0.9rem',
-                color: '#f0ededff',
-              }}>
+              <p style={infoTextStyle}>
                 Not registered yet?{' '}
                 <button
                   onClick={() => setIsLogin(false)}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    color: '#ecedecff',
-                    cursor: 'pointer',
-                    textDecoration: 'underline',
-                    fontSize: '0.9rem',
-                    padding: 0,
-                  }}
+                  style={linkButtonStyle}
                 >
                   Register here
                 </button>
               </p>
             </>
           ) : (
-            <p style={{
-              fontSize: '0.9rem',
-              color: '#f0ededff',
-            }}>
+            <p style={infoTextStyle}>
               Already have an account?{' '}
               <button
                 onClick={() => setIsLogin(true)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#ecedecff',
-                  cursor: 'pointer',
-                  textDecoration: 'underline',
-                  fontSize: '0.9rem',
-                  padding: 0,
-                }}
+                style={linkButtonStyle}
               >
                 Login here
               </button>
@@ -447,6 +298,63 @@ const ProfileAuth = () => {
       </style>
     </div>
   );
+};
+
+/* 🔹 Centralized Styles */
+const inputStyle = {
+  width: '100%',
+  padding: '12px 15px',
+  margin: '10px 0',
+  border: '1px solid #ccc',
+  borderRadius: '6px',
+  fontSize: '1rem',
+  outline: 'none',
+  backgroundColor: 'rgba(255, 255, 255, 0)',
+  color: '#f5f5f5ff',
+};
+
+const errorStyle = {
+  backgroundColor: 'rgba(227, 31, 51, 0.1)',
+  color: '#dc3545',
+  borderLeft: '3px solid #dc3545',
+  padding: '6px 10px',
+  borderRadius: '3px',
+  fontSize: '0.85rem',
+  marginTop: '-5px',
+  marginBottom: '10px',
+  textAlign: 'left',
+  animation: 'fadeIn 0.3s ease-in-out',
+};
+
+const buttonStyle = {
+  backgroundColor: '#ce9626ff',
+  color: '#fff',
+  border: 'none',
+  padding: '14px 28px',
+  borderRadius: '8px',
+  cursor: 'pointer',
+  fontSize: '1rem',
+  fontWeight: '600',
+  transition: 'all 0.3s ease',
+  width: '100%',
+  maxWidth: '300px',
+  marginTop: '15px',
+  boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
+};
+
+const linkButtonStyle = {
+  background: 'none',
+  border: 'none',
+  color: '#ecedecff',
+  cursor: 'pointer',
+  textDecoration: 'underline',
+  fontSize: '0.9rem',
+  padding: 0,
+};
+
+const infoTextStyle = {
+  fontSize: '0.9rem',
+  color: '#f0ededff',
 };
 
 export default ProfileAuth;

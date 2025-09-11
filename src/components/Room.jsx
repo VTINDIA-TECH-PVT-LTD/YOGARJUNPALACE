@@ -29,7 +29,7 @@ const Room = () => {
           <div className="col-lg-4">
             <div className="de-room">
               <div className="d-image">
-                <div className="d-label">only 2 room left</div>
+                {/* <div className="d-label">only 2 room left</div> */}
                 <div className="d-details">
                   <span className="d-meta-1">
                     <FaUserFriends className="me-1" /> 2 Guests
@@ -65,7 +65,7 @@ const Room = () => {
           <div className="col-lg-4">
             <div className="de-room">
               <div className="d-image">
-                <div className="d-label">only 1 room left</div>
+                {/* <div className="d-label">only 1 room left</div> */}
                 <div className="d-details">
                   <span className="d-meta-1">
                     <FaUserFriends className="me-1" /> 2 Guests
@@ -102,7 +102,7 @@ const Room = () => {
           <div className="col-lg-4">
             <div className="de-room">
               <div className="d-image">
-                <div className="d-label">only 3 room left</div>
+                {/* <div className="d-label">only 3 room left</div> */}
                 <div className="d-details">
                   <span className="d-meta-1">
                     <FaUserFriends className="me-1" /> 2 Guests

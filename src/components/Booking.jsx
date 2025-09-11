@@ -318,12 +318,14 @@
 //     </div>
 //   );
 // }
+// import "../pages/Booking.css";
+
+
 // src/pages/Booking.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Footer from "./Footer";
-import "../pages/Booking.css";
 
 export default function Booking() {
   const [adults, setAdults] = useState(1);
@@ -409,8 +411,6 @@ export default function Booking() {
         headers: { "Content-Type": "application/json" },
       });
 
-      console.log("✅ API response:", res.data);
-
       if (res.data.status && Array.isArray(res.data.data)) {
         setRooms(res.data.data);
       } else {
@@ -437,55 +437,86 @@ export default function Booking() {
     >
       <section id="subheader" className="no-bg">
         <div className="container text-center">
+          <h4>Lets</h4>
           <h1>Booking</h1>
         </div>
       </section>
 
       <section id="section-main" className="no-bg no-top">
         <div className="container">
-          <div className="row">
-            <div className="col-lg-6 offset-lg-3">
-              <div className="de-content-overlay">
-                <form id="contact_form" noValidate>
-                  <h4>Choose Dates</h4>
+          <div className="container mt-4">
+            <div className="container mt-4">
+              <div
+                className="row justify-content-center"
+                style={{
+                  background: "rgba(0,0,0,0.5)",
+                  padding: "20px",
+                  borderRadius: "8px",
+                }}
+              >
+                <div className="col-12 col-lg-10">
+                  <div
+                    className="d-flex flex-wrap"
+                    style={{
+                      borderRadius: "8px",
+                    }}
+                  >
+                    {/* Check-in */}
+                    <div
+                      className="col-12 col-sm-6 col-md-4 col-lg p-3"
+                      style={{ borderRight: "1px solid #ddd" }}
+                    >
+                      <h6 className="text-center" style={{ color: "white" }}>
+                        CHECK IN 📅
+                      </h6>
+                      <input
+                        type="date"
+                        name="checkInDate"
+                        className="form-control text-center"
+                        value={formData.checkInDate}
+                        onChange={handleInputChange}
+                      />
+                      {errors.checkInDate && (
+                        <small className="text-danger d-block">
+                          {errors.checkInDate}
+                        </small>
+                      )}
+                    </div>
 
-                  <h5 className="mt-3">Check-in date</h5>
-                  <input
-                    type="date"
-                    name="checkInDate"
-                    className="form-control"
-                    value={formData.checkInDate}
-                    onChange={handleInputChange}
-                  />
-                  {errors.checkInDate && (
-                    <small className="text-danger d-block">
-                      {errors.checkInDate}
-                    </small>
-                  )}
+                    {/* Check-out */}
+                    <div
+                      className="col-12 col-sm-6 col-md-4 col-lg p-3"
+                      style={{ borderRight: "1px solid #ddd" }}
+                    >
+                      <h6 className="text-center" style={{ color: "white" }}>
+                        CHECK OUT 📅
+                      </h6>
+                      <input
+                        type="date"
+                        name="checkOutDate"
+                        className="form-control text-center"
+                        value={formData.checkOutDate}
+                        onChange={handleInputChange}
+                      />
+                      {errors.checkOutDate && (
+                        <small className="text-danger d-block">
+                          {errors.checkOutDate}
+                        </small>
+                      )}
+                    </div>
 
-                  <h5 className="mt-3">Check-out date</h5>
-                  <input
-                    type="date"
-                    name="checkOutDate"
-                    className="form-control mt-2"
-                    value={formData.checkOutDate}
-                    onChange={handleInputChange}
-                  />
-                  {errors.checkOutDate && (
-                    <small className="text-danger d-block">
-                      {errors.checkOutDate}
-                    </small>
-                  )}
-
-                  <div className="row mt-3">
-                    <div className="col-md-6">
-                      <h4>Adults</h4>
+                    {/* Adults */}
+                    <div
+                      className="col-12 col-sm-6 col-md-4 col-lg p-3"
+                      style={{ borderRight: "1px solid #ddd", textAlign: "center" }}
+                    >
+                      <h6 style={{ color: "white" }}>ADULTS</h6>
                       <div className="de-number">
                         <span
                           className="d-minus"
                           onClick={() => decrement(setAdults, adults, 1)}
                         >
-                          -
+                          −
                         </span>
                         <input type="text" readOnly value={adults} />
                         <span
@@ -500,14 +531,18 @@ export default function Booking() {
                       )}
                     </div>
 
-                    <div className="col-md-6">
-                      <h4>Children</h4>
+                    {/* Children */}
+                    <div
+                      className="col-12 col-sm-6 col-md-4 col-lg p-3"
+                      style={{ borderRight: "1px solid #ddd", textAlign: "center" }}
+                    >
+                      <h6 style={{ color: "white" }}>CHILDREN</h6>
                       <div className="de-number">
                         <span
                           className="d-minus"
                           onClick={() => decrement(setChildren, children, 0)}
                         >
-                          -
+                          −
                         </span>
                         <input type="text" readOnly value={children} />
                         <span
@@ -521,20 +556,24 @@ export default function Booking() {
                         <small className="text-danger">{errors.children}</small>
                       )}
                     </div>
-                  </div>
 
-                  <p className="mt20 text-center">
-                    <button
-                      type="button"
-                      className="btn btn-line"
-                      style={{ width: "220px", height: "55px" }}
-                      onClick={handleCheckAvailability}
-                      disabled={loading}
+                    {/* Check Availability */}
+                    <div
+                      className="col-12 col-sm-6 col-md-4 col-lg p-3 text-center"
+                      style={{ color: "#fff" }}
                     >
-                      {loading ? "Checking..." : "Check Availability"}
-                    </button>
-                  </p>
-                </form>
+                      <button
+                        type="button"
+                        className="btn btn-line"
+                        style={{ width: "180px", height: "60px" }}
+                        onClick={handleCheckAvailability}
+                        disabled={loading}
+                      >
+                        {loading ? "Checking..." : "Check Availability"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -542,7 +581,7 @@ export default function Booking() {
           {rooms.length > 0 && (
             <div className="row g-4 mt-5">
               {rooms.map((room, idx) => (
-                <div className="col-lg-4" key={idx}>
+                <div className="col-12 col-md-6 col-lg-4" key={idx}>
                   <div className="de-room">
                     <div className="d-image">
                       <div className="d-label">
@@ -571,6 +610,11 @@ export default function Booking() {
                             "/assets/images/default-room.jpg"
                           }
                           className="img-fluid"
+                          style={{
+                            height: "250px",
+                            width: "100%",
+                            objectFit: "cover",
+                          }}
                           alt={room.roomtype}
                         />
                       </Link>
@@ -579,9 +623,6 @@ export default function Booking() {
                     <div className="d-text">
                       <h3>{room.roomtype}</h3>
                       <p>{room.roomdescription || "Comfortable stay."}</p>
-                      {/* <Link to={`/room/${room.roomid}`} className="btn-line">
-                        <span>Book Now For ₹{room.rate}</span>
-                      </Link> */}
                       <Link
                         to={`/room/${room.roomid}`}
                         state={{
