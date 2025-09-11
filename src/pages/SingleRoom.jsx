@@ -1,21 +1,28 @@
-// src/pages/SingleRoom.jsx
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaUserFriends, FaRulerCombined, FaBed } from "react-icons/fa";
+import {
+  FaUserFriends,
+  FaRulerCombined,
+  FaBed,
+  FaStar,
+  FaPlus,
+  FaChild,
+  FaMoneyBillWave,
+  FaInfoCircle,
+} from "react-icons/fa";
 import { MdHotel } from "react-icons/md";
 import Footer from "../components/Footer";
 
 const SingleRoom = () => {
   const [timestamp, setTimestamp] = useState(Date.now());
-  const location = useLocation(); // ✅ detect route changes
+  const [roomData, setRoomData] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
-    // ✅ Reload images whenever page is visited OR navigated back
     setTimestamp(Date.now());
-  }, [location.pathname]); // fires on route change
+  }, [location.pathname]);
 
   useEffect(() => {
-    // Initialize Magnific Popup
     if (
       typeof window !== "undefined" &&
       window.$ &&
@@ -30,7 +37,6 @@ const SingleRoom = () => {
       });
     }
 
-    // Refresh every 30s
     const interval = setInterval(() => {
       setTimestamp(Date.now());
     }, 30000);
@@ -38,8 +44,39 @@ const SingleRoom = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Helper: add timestamp to bust cache
-  const withCacheBust = (path) => `${path}?v=${timestamp}`;
+  useEffect(() => {
+    const fetchRoom = async () => {
+      const data = {
+        roomtype: "Single Room",
+        roomsize: "100",
+        roomsizemesurement: "13",
+        roomactive: "1",
+        bedsno: "1",
+        bedstype: "12",
+        number_of_star: "5",
+        roomdescription:
+          "Keep it simple. Talk about colors, patterns, decor, and unique architectural details, if they're relevant. Talk about furnishings and props, especially if characters use them. Talk about anything in the room if it reveals something about the characters within.",
+        reservecondition:
+          "Keep it simple. Talk about colors, patterns, decor, and unique architectural details, if they're relevant. Talk about furnishings and props, especially if characters use them. Talk about anything in the room if it reveals something about the characters within.",
+        roomstatus: "0",
+        capacity: "2",
+        exbedcapability: "1",
+        child_limit: null,
+        rate: "2000.00",
+        bedcharge: "500",
+        personcharge: "500",
+        room_images: [
+          "https://yogarjunpalace.com/application/modules/room_setting/assets/images/2025-09-08/F.jpg",
+          "https://yogarjunpalace.com/application/modules/room_setting/assets/images/2025-09-08/S.jpg",
+          "https://yogarjunpalace.com/application/modules/room_setting/assets/images/2025-09-08/S.jpg",
+          "https://yogarjunpalace.com/application/modules/room_setting/assets/images/2025-09-08/S.jpg",
+          "https://yogarjunpalace.com/application/modules/room_setting/assets/images/2025-09-08/S.jpg",
+        ],
+      };
+      setRoomData(data);
+    };
+    fetchRoom();
+  }, []);
 
   const mainBg = {
     backgroundImage: "url(/uploads/single_room.jpg)",
@@ -49,160 +86,259 @@ const SingleRoom = () => {
     padding: "40px 0",
   };
 
+  const withCacheBust = (path) => `${path}?v=${timestamp}`;
+
+  if (!roomData) return null;
+
+  // base card style
+  const cardStyle = {
+    background: "rgba(255,255,255,0.08)",
+    border: "1px solid rgba(255,255,255,0.08)",
+    borderRadius: "14px",
+    boxShadow: "0 6px 24px rgba(0,0,0,0.45)",
+    color: "#fff",
+  };
+
+  // smaller centered summary
+  const summaryStyle = {
+    ...cardStyle,
+    maxWidth: 900,
+    margin: "0 auto",
+    padding: "24px",
+  };
+
+  // item style for summary rows
+  const summaryItemStyle = {
+    background: "rgba(26, 25, 25, 0.04)",
+    border: "1px solid rgba(255,255,255,0.06)",
+    padding: "12px",
+    borderRadius: "10px",
+    transition: "background 0.2s, transform 0.12s",
+  };
+
   return (
     <>
       <section id="section-main" style={mainBg} aria-label="section-menu">
-        <div className="container" id="subheader" style={{ backgroundColor: "transparent" }}>
-          <div className="row">
+        {/* Header */}
+        <div
+          className="container p-0"
+          id="subheader"
+          style={{ backgroundColor: "transparent" }}
+        >
+          <div className="row justify-content-center">
             <div className="col-12 text-center">
-              <h4>Luxury</h4>
-              <h1>Suite</h1><br />
-              <h2>Single Room</h2>
+              <h4 style={{ color: "#fff", fontWeight: "500" }}>Luxury</h4>
+              <h1
+                style={{ color: "#fff", fontWeight: "700", fontSize: "48px" }}
+              >
+                Suite
+              </h1><br />
+              <h2 style={{ color: "#fff", fontWeight: "500" }}>
+                {roomData.roomtype}
+              </h2>
             </div>
           </div>
         </div>
 
-        <div className="container" style={{ borderRadius: "12px" }}>
-          <div className="row">
-            <div className="col-12">
+        <div className="container my-5">
+          <div className="row justify-content-center">
+            <div className="col-lg-10">
               <div className="de-content-overlay">
-                {/* Carousel */}
-                <div className="d-carousel">
+                {/* Carousel (full width card) */}
+                <div className="mb-5 p-3" style={cardStyle}>
+                  <h4
+                    style={{
+                      borderBottom: "2px solid rgba(255,255,255,0.12)",
+                      paddingBottom: "10px",
+                      marginBottom: "14px",
+                    }}
+                  >
+                    📸 Room Images
+                  </h4>
                   <div id="carousel-rooms" className="owl-carousel owl-theme">
-                    {/* Item 1 */}
-                    <div className="item">
-                      <div className="picframe">
-                        <a className="image-popup-gallery" href={withCacheBust("/uploads/Single Room.png")}>
-                          <span className="overlay">
-                            <span className="pf_title"><i className="icon_search"></i></span>
-                            <span className="pf_caption">King size bed</span>
-                          </span>
-                        </a>
-                        <img
-                          src={withCacheBust("/uploads/Single Room.png")}
-                          alt="Single Room"
-                          className="img-fluid"
-                        />
+                    {roomData.room_images.map((img, idx) => (
+                      <div className="item" key={idx}>
+                        <div
+                          className="picframe rounded overflow-hidden"
+                          style={{
+                            boxShadow: "0 6px 18px rgba(0,0,0,0.45)",
+                          }}
+                        >
+                          <a
+                            className="image-popup-gallery"
+                            href={withCacheBust(img)}
+                          >
+                            <span className="overlay">
+                              <span className="pf_caption">
+                                Room image {idx + 1}
+                              </span>
+                            </span>
+                          </a>
+                          <img
+                            src={withCacheBust(img)}
+                            alt={`Room image ${idx + 1}`}
+                            className="img-fluid rounded"
+                            style={{
+                              width: "100%",
+                              height: "auto",
+                              display: "block",
+                            }}
+                          />
+                        </div>
                       </div>
-                    </div>
-
-                    {/* Item 2 */}
-                    <div className="item">
-                      <div className="picframe">
-                        <a className="image-popup-gallery" href={withCacheBust("/uploads/Room1.png")}>
-                          <span className="overlay">
-                            <span className="pf_title"><i className="icon_search"></i></span>
-                            <span className="pf_caption">Balcony with ocean view</span>
-                          </span>
-                        </a>
-                        <img
-                          src={withCacheBust("/uploads/Room1.png")}
-                          alt="Room1"
-                          className="img-fluid"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Item 3 */}
-                    <div className="item">
-                      <div className="picframe">
-                        <a className="image-popup-gallery" href={withCacheBust("/uploads/Room2.png")}>
-                          <span className="overlay">
-                            <span className="pf_title"><i className="icon_search"></i></span>
-                            <span className="pf_caption">Large bathroom</span>
-                          </span>
-                        </a>
-                        <img
-                          src={withCacheBust("/uploads/Room2.png")}
-                          alt="Room2"
-                          className="img-fluid"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Item 4 */}
-                    <div className="item">
-                      <div className="picframe">
-                        <a className="image-popup-gallery" href={withCacheBust("/uploads/Room3.png")}>
-                          <span className="overlay">
-                            <span className="pf_title"><i className="icon_search"></i></span>
-                            <span className="pf_caption">Swimming pool</span>
-                          </span>
-                        </a>
-                        <img
-                          src={withCacheBust("/uploads/Room3.png")}
-                          alt="Room3"
-                          className="img-fluid"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Carousel Arrows */}
-                  <div className="d-arrow-left mod-a">
-                    <i className="fa fa-angle-left"></i>
-                  </div>
-                  <div className="d-arrow-right mod-a">
-                    <i className="fa fa-angle-right"></i>
+                    ))}
                   </div>
                 </div>
 
-                {/* Room Details */}
-                <div className="row align-items-start mt-4">
-                  <div className="col-12 mb-3">
-                    <div className="d-room-details d-flex flex-wrap justify-content-between gap-3">
-                      <div className="d-flex align-items-center">
-                        <FaUserFriends className="me-2" />4 Guests
+                {/* ---- SQUEEZED Room Summary (3 per row) ---- */}
+                <div className="mb-5" style={summaryStyle}>
+                  <h4
+                    style={{
+                      borderBottom: "2px solid rgba(255,255,255,0.12)",
+                      paddingBottom: "10px",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    🏷️ Room Summary
+                  </h4>
+
+                  <div className="row g-3">
+                    {[
+                      { icon: <FaUserFriends />, label: `${roomData.capacity} Guests` },
+                      { icon: <FaRulerCombined />, label: `${roomData.roomsize} ft² (${roomData.roomsizemesurement} m²)` },
+                      { icon: <FaBed />, label: `${roomData.bedsno} Bed(s) (${roomData.bedstype})` },
+                      { icon: <FaStar />, label: `${roomData.number_of_star} Stars` },
+                      { icon: <FaChild />, label: `${roomData.child_limit !== null ? roomData.child_limit : "Not specified"} Child Limit` },
+                      { icon: <FaMoneyBillWave />, label: `₹${roomData.rate} / Night` },
+                      { icon: <FaMoneyBillWave />, label: `Bed Charge ₹${roomData.bedcharge}` },
+                      { icon: <FaMoneyBillWave />, label: `Person Charge ₹${roomData.personcharge}` },
+                      { icon: <FaInfoCircle />, label: `Status: ${roomData.roomstatus === "0" ? "✅ Available" : "❌ Not Available"}` },
+                    ].map((item, idx) => (
+                      <div className="col-lg-4 col-md-6 col-sm-12" key={idx}>
+                        <div
+                          className="d-flex align-items-center"
+                          style={summaryItemStyle}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background =
+                              "rgba(255,255,255,0.08)";
+                            e.currentTarget.style.transform =
+                              "translateY(-3px)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background =
+                              "rgba(255,255,255,0.04)";
+                            e.currentTarget.style.transform = "translateY(0)";
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontSize: 20,
+                              marginRight: 12,
+                              color: "#4ade80",
+                              minWidth: 28,
+                            }}
+                          >
+                            {item.icon}
+                          </div>
+                          <div style={{ color: "#f3f4f6", fontSize: 15 }}>
+                            {item.label}
+                          </div>
+                        </div>
                       </div>
-                      <div className="d-flex align-items-center">
-                        <FaRulerCombined className="me-2" />70 ft
-                      </div>
-                      <div className="d-flex align-items-center">
-                        <FaBed className="me-2" />2800 / Night
-                      </div>
-                      <div>
-                        <Link to="/booking" className="btn-main d-flex align-items-center">
-                          <MdHotel className="me-2" />
-                          <span>Book Now</span>
-                        </Link>
-                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* ---- Two-column: Left = Description + Reserve, Right = Facilities ---- */}
+                <div className="row gx-4 gy-4">
+                  {/* Left column (Description + Reserve Condition) */}
+                  <div className="col-lg-7 col-md-12">
+                    <div style={{ ...cardStyle, padding: 20 }}>
+                      <h4
+                        style={{
+                          borderBottom: "2px solid rgba(255,255,255,0.12)",
+                          paddingBottom: 10,
+                          marginBottom: 12,
+                        }}
+                      >
+                        📝 Description
+                      </h4>
+                      <p style={{ color: "#d1d5db", lineHeight: 1.6 }}>
+                        {roomData.roomdescription}
+                      </p>
+
+                      <h4
+                        style={{
+                          borderBottom: "2px solid rgba(255,255,255,0.12)",
+                          paddingBottom: 10,
+                          marginTop: 18,
+                          marginBottom: 12,
+                        }}
+                      >
+                        📌 Reserve Condition
+                      </h4>
+                      <p style={{ color: "#d1d5db", lineHeight: 1.6 }}>
+                        {roomData.reservecondition}
+                      </p>
                     </div>
                   </div>
 
-                  {/* Left Column */}
-                  <div className="col-12 col-lg-8 mb-4">
-                    <h3>SINGLE ROOM</h3>
-                    <p>
-                      The Single Room of Hotel Yogarjun Palace is a comfortable
-                      and cozy space that offers a refreshing and rejuvenating
-                      stay. The room is designed with modern amenities and
-                      features a comfortable bed, a work desk, and a seating
-                      area. The decor is simple yet elegant, with soothing
-                      colors and tasteful furnishings that create a relaxing
-                      ambiance. The room also includes a flat-screen TV, air
-                      conditioning, and free Wi-Fi to keep you connected and
-                      entertained during your stay. The bathroom is equipped
-                      with all the necessary toiletries and a shower to help you
-                      unwind after a long day. Overall, the Single Room of Hotel
-                      Yogarjun Palace is an ideal choice for solo travelers or
-                      business travelers looking for a comfortable and
-                      convenient stay.
-                    </p>
-                  </div>
+                  {/* Right column (Facilities) */}
+                  <div className="col-lg-5 col-md-12">
+                    <div style={{ ...cardStyle, padding: 20 }}>
+                      <h4
+                        style={{
+                          borderBottom: "2px solid rgba(255,255,255,0.12)",
+                          paddingBottom: 10,
+                          marginBottom: 12,
+                        }}
+                      >
+                        🛎️ Room Facilities
+                      </h4>
 
-                  {/* Right Column */}
-                  <div className="col-12 col-lg-4">
-                    <h3>Room Facilities</h3>
-                    <ul>
-                      <li>48" HD TV with more than 60 channels</li>
-                      <li>Coffee and tea makers</li>
-                      <li>Hot &amp; cold bathing</li>
-                      <li>High comfortable mattress bed</li>
-                      <li>High quality bed sheets</li>
-                      <li>Free WIFI internet connection</li>
-                      <li>Connecting room by request</li>
-                    </ul>
+                      <ul
+                        className="list-unstyled"
+                        style={{ color: "#d1d5db", lineHeight: 1.8 }}
+                      >
+                        <li>📺 48" HD TV with 60+ channels</li>
+                        <li>☕ Coffee & tea makers</li>
+                        <li>🚿 Hot & cold bathing</li>
+                        <li>🛏️ Comfortable mattress bed</li>
+                        <li>🛋️ High quality bed sheets</li>
+                        <li>📶 Free WIFI internet</li>
+                        <li>🔗 Connecting room (on request)</li>
+                        {roomData.exbedcapability > 0 && (
+                          <li style={{ display: "flex", alignItems: "center" }}>
+                            <FaPlus
+                              className="me-2"
+                              style={{ color: "#4ade80" }}
+                            />{" "}
+                            Extra bed available
+                          </li>
+                        )}
+                      </ul>
+                    </div>
                   </div>
+                </div>
+
+                {/* Final centered Book Now button */}
+                <div className="text-center mt-5 mb-5">
+                  <Link
+                    to="/booking"
+                    className="btn-success shadow-lg d-inline-flex align-items-center justify-content-center"
+                    style={{
+                      borderRadius: 12,
+                      fontWeight: 700,
+                      fontSize: 18,
+                      width: "220px",
+                      height: "60px",
+                      letterSpacing: 0.3,
+                      backgroundColor: "#edac34ff",
+                    }}
+                  >
+                    <MdHotel className="me-2" size={22} />
+                    Book Now
+                  </Link>
                 </div>
               </div>
             </div>

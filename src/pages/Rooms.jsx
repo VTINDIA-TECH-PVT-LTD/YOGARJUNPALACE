@@ -10,7 +10,7 @@ const Rooms = () => {
       price: 2800,
       img: "https://www.madebydesignesia.com/themes/seaside/images/room/1.jpg",
       hoverImg: "https://www.madebydesignesia.com/themes/seaside/images/room/1-alt.jpg",
-      label: "only 2 room left",
+      // label: "only 2 room left",
       guests: 2,
       size: "30 ft",
       link: "/single-room",   // ✅ clean path
@@ -23,9 +23,9 @@ const Rooms = () => {
       price: 3000,
       img: "https://www.madebydesignesia.com/themes/seaside/images/room/1.jpg",
       hoverImg: "https://www.madebydesignesia.com/themes/seaside/images/room/1-alt.jpg",
-      label: "only 2 room left",
-      guests: 2,
-      size: "30 ft",
+      // label: "only 2 room left",
+      guests: 4,
+      size: "100 ft",
       link: "/deluxe-room",   // ✅ clean path
       description:
         "The Deluxe Room at Hotel Yogarjun Palace offers an exquisite experience with its spacious and comfortable layout,and 24/7 room service for your convenience.",
@@ -36,9 +36,9 @@ const Rooms = () => {
       price: 3500,
       img: "https://www.madebydesignesia.com/themes/seaside/images/room/1.jpg",
       hoverImg: "https://www.madebydesignesia.com/themes/seaside/images/room/1-alt.jpg",
-      label: "only 2 room left",
-      guests: 2,
-      size: "30 ft",
+      // label: "only 2 room left",
+      guests: 6,
+      size: "120 ft",
       link: "/super-deluxe-room",   // ✅ clean path
       description:
         "The Super Deluxe Room of Hotel Yogarjun Palace is a perfect blend of comfort. The room is equipped with modern amenities to ensure a delightful stay,and 24/7 room service for your convenience.",
@@ -82,7 +82,7 @@ const Rooms = () => {
                 <div className="col-lg-4" key={room.id}>
                   <div className="de-room">
                     <div className="d-image">
-                      <div className="d-label">{room.label}</div>
+                      {/* <div className="d-label">{room.label}</div> */}
                       <div className="d-details">
                         <span className="d-meta-1">
                           <img src="/assets/images/ui/user.svg" alt="Guests" /> {room.guests} Guests
@@ -105,7 +105,8 @@ const Rooms = () => {
 
                       {/* ✅ Book Now button uses Link */}
                       <Link to={room.link} className="btn-line">
-                        <span>Book Now For ₹{room.price}</span>
+                        {/* <span>Book Now For ₹{room.price}</span> */}
+                        <span>Show More</span>
                       </Link>
                     </div>
                   </div>

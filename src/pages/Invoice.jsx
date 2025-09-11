@@ -64,6 +64,7 @@ const Invoice = () => {
 
   return (
     <>
+    <h1>Invoice</h1>
       <div
         ref={invoiceRef}
         style={{
