@@ -1,10 +1,8 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 import Footer from "../components/Footer";
 import {
-  FaPercent,
-  FaShieldAlt,
-  FaWifi,
-  FaGift,
   FaUser,
   FaMapMarkerAlt,
   FaPhoneAlt,
@@ -14,42 +12,68 @@ import {
 } from "react-icons/fa";
 
 const Checkout = () => {
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [guests, setGuests] = useState(1);
+  const location = useLocation();
+  const {
+    roomid,
+    checkin,
+    checkout,
+    adults,
+    children,
+    rate,
+    roomtype,
+    totalPrice,
+    formData,
+  } = location.state || {};
 
-  const handleCheckAvailability = (e) => {
+  const [loading, setLoading] = useState(false);
+  const [flashMessage, setFlashMessage] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("paypal"); // default
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(
-      `Checking availability for ${guests} guest(s) from ${checkIn} to ${checkOut}`
-    );
-  };
+    setLoading(true);
+    setFlashMessage("");
 
-  const cards = [
-    {
-      title: "Save up to 10%",
-      description:
-        "Members get access to exclusive discounts on Radissonblu.com. Not a member yet? Hurry Up!",
-      icon: <FaPercent size={40} />,
-    },
-    {
-      title: "Best Rate Guarantee",
-      description:
-        "If you find a lower online rate, we will match it and give you an additional 25% off on your stay.",
-      icon: <FaShieldAlt size={40} />,
-    },
-    {
-      title: "Free Wi-Fi",
-      description: "Stay connected with free high-speed Wi-Fi throughout your stay.",
-      icon: <FaWifi size={40} />,
-    },
-    {
-      title: "Enjoy Free Nights",
-      description:
-        "Book multiple nights and enjoy free nights as a reward for your loyalty.",
-      icon: <FaGift size={40} />,
-    },
-  ];
+    try {
+      const payload = {
+        f_name: formData.firstname,
+        l_name: formData.lastname,
+        email: formData.email,
+        phone: formData.phone,
+        address: formData.address,
+        checkin,
+        checkout,
+        adult: adults,
+        children,
+        roomid,
+        roomtype,
+        roomrate: rate,
+        amount: totalPrice,
+        discount: 0,
+        specialinstruction: formData.requests || "",
+        t_room: 1,
+        pmethod: paymentMethod === "paypal" ? 1 : paymentMethod === "qr" ? 2 : 3, // map dropdown
+        finyear: new Date().getFullYear(),
+      };
+
+      const res = await axios.post(
+        "/api/checkout",
+        payload
+      );
+
+      if (res.data.status) {
+        setFlashMessage("✅ Booking Successful! 🎉");
+        window.location.href = `/`;
+      } else {
+        setFlashMessage("❌ Booking failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Checkout Error:", error);
+      setFlashMessage("⚠️ Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -91,9 +115,16 @@ const Checkout = () => {
                   }}
                 >
                   <h3 className="mb-5 text-center" style={{ fontWeight: 700 }}>
-                    Check Your Details
+                    Confirm Your Booking
                   </h3>
-                  <form>
+
+                  {flashMessage && (
+                    <div className="alert alert-info text-center fw-bold">
+                      {flashMessage}
+                    </div>
+                  )}
+
+                  <form onSubmit={handleSubmit}>
                     <div className="row g-4">
                       {/* Left Box: User Details */}
                       <div className="col-lg-6">
@@ -107,129 +138,91 @@ const Checkout = () => {
 
                           <div className="mb-3">
                             <div className="input-group">
-                              <span
-                                className="input-group-text"
-                                style={{
-                                  background: "rgba(255,255,255,0.2)",
-                                  color: "#fff",
-                                }}
-                              >
+                              <span className="input-group-text bg-dark text-white">
                                 <FaUser />
                               </span>
                               <input
                                 type="text"
                                 className="form-control"
-                                placeholder="Enter your name"
-                                required
-                                style={{
-                                  background: "rgba(255,255,255,0.1)",
-                                  color: "#fff",
-                                  border: "none",
-                                }}
+                                value={`${formData.firstname} ${formData.lastname}`}
+                                readOnly
                               />
                             </div>
                           </div>
 
                           <div className="mb-3">
                             <div className="input-group">
-                              <span
-                                className="input-group-text"
-                                style={{
-                                  background: "rgba(255,255,255,0.2)",
-                                  color: "#fff",
-                                }}
-                              >
+                              <span className="input-group-text bg-dark text-white">
                                 <FaMapMarkerAlt />
                               </span>
                               <input
                                 type="text"
                                 className="form-control"
-                                placeholder="Enter your address"
-                                required
-                                style={{
-                                  background: "rgba(255,255,255,0.1)",
-                                  color: "#fff",
-                                  border: "none",
-                                }}
+                                value={formData.address}
+                                readOnly
                               />
                             </div>
                           </div>
 
                           <div className="mb-3">
                             <div className="input-group">
-                              <span
-                                className="input-group-text"
-                                style={{
-                                  background: "rgba(255,255,255,0.2)",
-                                  color: "#fff",
-                                }}
-                              >
+                              <span className="input-group-text bg-dark text-white">
                                 <FaPhoneAlt />
                               </span>
                               <input
                                 type="tel"
                                 className="form-control"
-                                placeholder="Enter your phone number"
-                                required
-                                style={{
-                                  background: "rgba(255,255,255,0.1)",
-                                  color: "#fff",
-                                  border: "none",
-                                }}
+                                value={formData.phone}
+                                readOnly
                               />
                             </div>
                           </div>
 
                           <div className="mb-3">
                             <div className="input-group">
-                              <span
-                                className="input-group-text"
-                                style={{
-                                  background: "rgba(255,255,255,0.2)",
-                                  color: "#fff",
-                                }}
-                              >
+                              <span className="input-group-text bg-dark text-white">
                                 <FaEnvelope />
                               </span>
                               <input
                                 type="email"
                                 className="form-control"
-                                placeholder="Enter your email"
-                                required
-                                style={{
-                                  background: "rgba(255,255,255,0.1)",
-                                  color: "#fff",
-                                  border: "none",
-                                }}
+                                value={formData.email}
+                                readOnly
                               />
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      {/* Right Box: Payment Details */}
+                      {/* Right Box: Booking Details + Payment */}
                       <div className="col-lg-6">
                         <div
                           className="p-4 rounded h-100"
                           style={{ background: "rgba(255,255,255,0.1)" }}
                         >
                           <h5 className="mb-4" style={{ fontWeight: 600 }}>
-                            Payment Details
+                            Booking Summary
                           </h5>
+                          <p><strong>Room:</strong> {roomtype}</p>
+                          <p><strong>Check-in:</strong> {checkin}</p>
+                          <p><strong>Check-out:</strong> {checkout}</p>
+                          <p>
+                            <strong>Guests:</strong> {adults} Adults, {children} Children
+                          </p>
+                          <p><strong>Total Price:</strong> ₹{totalPrice}</p>
+
                           <div className="mb-3">
+                            <label className="form-label text-white">
+                              Payment Method
+                            </label>
                             <div className="input-group">
-                              <span
-                                className="input-group-text"
-                                style={{
-                                  background: "rgba(255,255,255,0.2)",
-                                  color: "#fff",
-                                }}
-                              >
+                              <span className="input-group-text bg-dark text-white">
                                 <FaPaypal />
                               </span>
                               <select
                                 className="form-select"
-                                required
+                                value={paymentMethod}
+                                onChange={(e) => setPaymentMethod(e.target.value)}
                                 style={{
                                   background: "rgba(255,255,255,0.1)",
                                   color: "#fff",
@@ -237,60 +230,20 @@ const Checkout = () => {
                                   appearance: "none",
                                 }}
                               >
-                                <option
-                                  value=""
-                                  style={{ background: "#1f1f1f", color: "#fff" }}
-                                >
-                                  Select Payment Method
-                                </option>
-                                <option
-                                  value="paypal"
-                                  style={{ background: "#1f1f1f", color: "#fff" }}
-                                >
-                                  PayPal
-                                </option>
-                                <option
-                                  value="qr"
-                                  style={{ background: "#1f1f1f", color: "#fff" }}
-                                >
-                                  QR Code
-                                </option>
+                                <option value="paypal">PayPal</option>
+                                <option value="qr">QR Code</option>
+                                <option value="card">Credit/Debit Card</option>
                               </select>
                             </div>
                           </div>
 
-                          <div className="mb-3">
-                            <div className="input-group">
-                              <span
-                                className="input-group-text"
-                                style={{
-                                  background: "rgba(255,255,255,0.2)",
-                                  color: "#fff",
-                                }}
-                              >
-                                <FaQrcode />
-                              </span>
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Amount $0.00"
-                                required
-                                style={{
-                                  background: "rgba(255,255,255,0.1)",
-                                  color: "#fff",
-                                  border: "none",
-                                }}
-                              />
-                            </div>
-                          </div>
-
                           <button
-  type="submit"
-  className="w-100 mt-3 custom-submit-btn"
->
-  Submit
-</button>
-
+                            type="submit"
+                            className="w-100 mt-3 custom-submit-btn"
+                            disabled={loading}
+                          >
+                            {loading ? "Processing..." : "Confirm Booking"}
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -304,43 +257,21 @@ const Checkout = () => {
         <Footer />
       </div>
 
-    {/* Extra Styles */}
-<style>{`
-  .card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-  }
-  input.form-control {
-    background: rgba(255,255,255,0.9);
-  }
-  label.form-label {
-    color: #fff;
-  }
-
-  /* Custom Submit Button */
-  .custom-submit-btn {
-    background-color: #CA8E46 !important;
-    color: black !important;
-    border: none !important;
-    padding: 10px 15px;
-    font-weight: 600;
-    border-radius: 6px;
-    transition: background 0.3s ease;
-  }
-  
-  .custom-submit-btn:hover,
-  .custom-submit-btn:focus,
-  .custom-submit-btn:active {
-    background-color: #b87c39 !important; /* slightly darker on hover */
-    color: black !important;
-    outline: none !important;
-    box-shadow: none !important;
-    transform: none !important;
-  }
-  
-  
-`}</style>
-
+      {/* Extra Styles */}
+      <style>{`
+        .custom-submit-btn {
+          background-color: #CA8E46 !important;
+          color: black !important;
+          border: none !important;
+          padding: 10px 15px;
+          font-weight: 600;
+          border-radius: 6px;
+          transition: background 0.3s ease;
+        }
+        .custom-submit-btn:hover {
+          background-color: #b87c39 !important;
+        }
+      `}</style>
     </>
   );
 };

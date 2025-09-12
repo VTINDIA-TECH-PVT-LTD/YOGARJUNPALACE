@@ -64,7 +64,8 @@ const Invoice = () => {
 
   return (
     <>
-    <h1>Invoice</h1>
+    {/* <h1 style={color}>Invoice</h1> */}
+    <h1 style={{ color: "#606060" }}>Invoice</h1>
       <div
         ref={invoiceRef}
         style={{

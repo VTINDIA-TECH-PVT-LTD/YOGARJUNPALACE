@@ -122,6 +122,22 @@ const RoomDetails = () => {
     formData.guestname &&
     formData.requests;
 
+  // const handleNext = (e) => {
+  //   e.preventDefault();
+  //   if (validateForm()) {
+  //     navigate("/checkout", {
+  //       state: {
+  //         roomid,
+  //         checkin,
+  //         checkout,
+  //         adults,
+  //         children,
+  //         rate: roominfo.rate,
+  //         roomtype: roominfo.roomtype,
+  //       },
+  //     });
+  //   }
+  // };
   const handleNext = (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -134,10 +150,24 @@ const RoomDetails = () => {
           children,
           rate: roominfo.rate,
           roomtype: roominfo.roomtype,
+          totalPrice,
+          formData, // ✅ pass user data
         },
       });
     }
   };
+  
+  const rate = Number(roominfo.rate) || 0;   // fallback to 0 if undefined
+  const gst = rate * 0.18;
+  const serviceCharge = rate * 0.07;
+  let totalPrice = rate + gst + serviceCharge;
+
+  // Apply promo discount
+  if (promoStatus === "success") {
+    totalPrice = totalPrice * 0.9;
+  }
+
+
 
   return (
     <div className="booking-page">
@@ -233,11 +263,10 @@ const RoomDetails = () => {
                         <FaTimesCircle /> Promo Code is not Available
                       </p>
                     )}
-
                     <div className="mt-3 d-flex justify-content-between align-items-center border-top pt-2">
                       <strong>Total Price</strong>
                       <span className="text-success fw-bold">
-                        ₹{roominfo.rate}
+                        ₹{totalPrice.toFixed(0)}
                       </span>
                     </div>
                   </div>
@@ -406,34 +435,34 @@ const RoomDetails = () => {
       </div>
 
       {/* Custom Modal */}
-     {showModal && (
-  <div className="custom-modal-overlay">
-    <div className="custom-modal">
-      <h5 className="fw-bold mb-3 modalheading">Booking Conditions</h5>
-      {condition && condition.length > 0 ? (
-        <ul className="modal-condition-list">
-          {condition.map((c) => (
-            <li key={c.slid}>
-              <strong className="modalheading">{c.title}</strong>: {c.subtitle}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-muted">No conditions available</p>
-      )}
-      <div className="text-end mt-3">
-        <button
-          type="button"
-          className="closebutton"
-          onClick={() => setShowModal(false)}
-        >
-          Close
-        </button>
-      </div>
-    </div>
+      {showModal && (
+        <div className="custom-modal-overlay">
+          <div className="custom-modal">
+            <h5 className="fw-bold mb-3 modalheading">Booking Conditions</h5>
+            {condition && condition.length > 0 ? (
+              <ul className="modal-condition-list">
+                {condition.map((c) => (
+                  <li key={c.slid}>
+                    <strong className="modalheading">{c.title}</strong>: {c.subtitle}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-muted">No conditions available</p>
+            )}
+            <div className="text-end mt-3">
+              <button
+                type="button"
+                className="closebutton"
+                onClick={() => setShowModal(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
 
-    {/* Modal styles */}
-    <style jsx>{`
+          {/* Modal styles */}
+          <style jsx>{`
       .custom-modal-overlay {
         position: fixed;
         top: 0;
@@ -496,8 +525,8 @@ const RoomDetails = () => {
         to { opacity: 1; transform: translateY(0); }
       }
     `}</style>
-  </div>
-)}
+        </div>
+      )}
 
 
       {/* ✅ Custom Styles */}
