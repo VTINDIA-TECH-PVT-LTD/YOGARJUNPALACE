@@ -46,16 +46,7 @@ const isLoggedIn = !!user;
     return () => clearTimeout(timer);
   }, [isOpen]);
 
-  // ✅ Hide on some pages
-  // if (
-  //   location.pathname === "/Profile" ||
-  //   location.pathname === "/UserProfile" ||
-  //   location.pathname === "/BookingDetails" ||
-  //   location.pathname === "/myprofile" ||
-  //   location.pathname.startsWith("/invoice/")
-  // ) {
-  //   return null;
-  // }
+
 
   return (
     <>

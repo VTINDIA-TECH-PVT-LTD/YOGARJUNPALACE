@@ -1,12 +1,7 @@
 import { i } from "framer-motion/client";
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  FaUmbrellaBeach,
-  FaLightbulb,
-  FaHome,
-  FaRoad,
-} from "react-icons/fa";
+import { FaUmbrellaBeach, FaLightbulb, FaHome, FaRoad } from "react-icons/fa";
 
 const TouristAttractions = () => {
   return (
@@ -79,12 +74,32 @@ const TouristAttractions = () => {
             </ul>
 
             {/* Button under list */}
-            <div className="mt-3">
+            <div className="mt-4 ">
               <Link
                 to="/touristplaces"
-                className="btn btn-primary px-4 py-2 rounded-pill shadow-sm"
+                className="px-3 py-3 rounded-pill fw-bold text-white shadow-lg"
+                style={{
+                  background:
+                    " #fb9936ff", // gradient colors
+                  textDecoration: "none",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 6px 20px rgba(255, 118, 136, 0.5)",
+                  display: "inline-block",
+                  fontSize: "15px",
+                  letterSpacing: "0.5px",
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = "scale(1.07)";
+                  e.target.style.boxShadow =
+                    "0 8px 25px rgba(255, 118, 136, 0.7)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = "scale(1)";
+                  e.target.style.boxShadow =
+                    "0 6px 20px rgba(255, 118, 136, 0.5)";
+                }}
               >
-                View More
+                🚀 View More
               </Link>
             </div>
           </div>

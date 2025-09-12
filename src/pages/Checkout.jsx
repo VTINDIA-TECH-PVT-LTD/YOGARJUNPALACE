@@ -63,9 +63,10 @@ const Checkout = () => {
 
       if (res.data.status) {
         setFlashMessage("✅ Booking Successful! 🎉");
-        window.location.href = `/`;
+        window.location.href = `/success`;
       } else {
         setFlashMessage("❌ Booking failed. Please try again.");
+        window.location.href = `/failed`;
       }
     } catch (error) {
       console.error("Checkout Error:", error);

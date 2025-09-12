@@ -77,7 +77,7 @@ const Room = () => {
                 <a href="room-single.html">
                   <img
                     src="/uploads/deluxe.png"
-                    style={{ width: "389px", height: "292px" }}
+                    style={{ width: '100%', height: '292px', objectFit: 'cover' }}
                     className="img-fluid"
                     alt=""
                   />
@@ -114,7 +114,7 @@ const Room = () => {
                 <a href="room-single.html">
                   <img
                     src="/uploads/super_deluxe.jpg"
-                    style={{ width: "389px", height: "292px" }}
+                    style={{ width: '100%', height: '292px', objectFit: 'cover' }}
                     className="img-fluid"
                     alt=""
                   />

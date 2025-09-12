@@ -123,8 +123,7 @@ const About = () => {
       <div className="text">
         <h3 className="style-1">Restaurant</h3>
         <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.
+          A restaurant is a place where meals are prepared and served to customers. It provides food and beverages that can be enjoyed .
         </p>
       </div>
     </div>
@@ -139,8 +138,7 @@ const About = () => {
       <div className="text">
         <h3 className="style-1">Swimming Pool</h3>
         <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.
+         A swimming pool is a specially designed structure filled with water, used for swimming, relaxation, exercise, or recreational activities.
         </p>
       </div>
     </div>
@@ -155,8 +153,7 @@ const About = () => {
       <div className="text">
         <h3 className="style-1">Fitness Area</h3>
         <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.
+          Our Fitness Area is designed to keep you energized and healthy during your stay. Equipped with modern exercise machines.
         </p>
       </div>
     </div>
@@ -171,8 +168,7 @@ const About = () => {
       <div className="text">
         <h3 className="style-1">Mini Bar</h3>
         <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.
+          A mini bar is a small, private refreshment counter typically found inside hotel rooms, stocked with beverages and snacks for guests.
         </p>
       </div>
     </div>
@@ -187,8 +183,7 @@ const About = () => {
       <div className="text">
         <h3 className="style-1">Meeting Room</h3>
         <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.
+          A Meeting Room is a dedicated space designed for discussions, brainstorming, and collaboration. 
         </p>
       </div>
     </div>
@@ -238,8 +233,7 @@ const About = () => {
       <div className="text">
         <h3 className="style-1">Safe Box</h3>
         <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.
+          A Safe Box is a durable and highly secure storage unit used to keep cash,important documents, and other valuables protected.
         </p>
       </div>
     </div>
@@ -254,8 +248,7 @@ const About = () => {
       <div className="text">
         <h3 className="style-1">Parking Area</h3>
         <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.
+          The Parking Area is a designated space where vehicles can be safely parked. It is planned and organized to provide convenience, safety,.
         </p>
       </div>
     </div>

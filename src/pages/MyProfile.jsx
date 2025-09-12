@@ -63,15 +63,13 @@ const MyProfile = () => {
   ];
 
   return (
-    <div className="container py-4">
-      <div className="profile-card shadow-sm p-4 rounded">
-        {/* Profile Header */}
-        <div className="text-center mb-4">
+    <div>
+      <div className="profile-card shadow-sm  rounded">
+        <div className="text-center ">
           <FaUserCircle size={70} color="#b6862c" />
           <h2 className="mt-2 profile-title">My Profile</h2>
         </div>
 
-        {/* Profile Details Grid */}
         <div className="profile-grid">
           {fields.map((field, idx) => (
             <div key={idx} className="profile-item">
@@ -83,16 +81,8 @@ const MyProfile = () => {
             </div>
           ))}
         </div>
-
-        {/* Edit Profile Button */}
-        {/* <div className="text-center mt-3">
-          <button className="edit-btn">
-            <FaEdit className="me-1" /> Edit Profile
-          </button>
-        </div> */}
       </div>
 
-      {/* Styling */}
       <style>
         {`
           .profile-card {
@@ -111,17 +101,16 @@ const MyProfile = () => {
             font-size: 22px;
           }
 
-          /* Two-column grid */
           .profile-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px 24px;
+            gap: 20px 24px;
           }
 
           .profile-item {
             background: #fafafa;
             border: 1px solid #f1f1f1;
-            padding: 12px 15px;
+            padding: 16px 20px;
             border-radius: 8px;
             display: flex;
             flex-direction: column;
@@ -141,13 +130,13 @@ const MyProfile = () => {
             color: #555;
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 4px;
+            gap: 8px;
+            margin-bottom: 6px;
           }
 
           .label .icon {
             color: #b6862c;
-            font-size: 13px;
+            font-size: 14px;
           }
 
           .value {
@@ -178,9 +167,41 @@ const MyProfile = () => {
             100% { opacity: 1; transform: translateY(0); }
           }
 
-          @media (max-width: 768px) {
+          /* Tablet view */
+          @media (max-width: 992px) {
+            .profile-grid {
+              grid-template-columns: repeat(2, 1fr);
+              gap: 18px 20px;
+            }
+          }
+
+          /* Mobile view */
+          @media (max-width: 576px) {
             .profile-grid {
               grid-template-columns: 1fr;
+              gap: 12px 0;
+            }
+
+            .profile-item {
+              padding: 14px 18px;
+            }
+
+            .label {
+              font-size: 13px;
+              gap: 6px;
+              margin-bottom: 5px;
+            }
+
+            .label .icon {
+              font-size: 13px;
+            }
+
+            .value {
+              font-size: 14px;
+            }
+
+            .profile-title {
+              font-size: 20px;
             }
           }
         `}
