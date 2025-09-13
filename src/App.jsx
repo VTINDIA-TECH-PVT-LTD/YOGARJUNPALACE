@@ -26,6 +26,8 @@ import LoginPopup from "./components/LoginPopup";
 
 import RoomDetails from "./pages/RoomDetails";
 import Checkout from "./pages/Checkout";
+import PaymentSuccessPopup from "./pages/PaymentSuccessPopup";
+import PaymentFailedPopup from "./pages/PaymentFailedPopup";
 
 
 const PrivateRoute = ({ element }) => {
@@ -112,6 +114,11 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
 
         <Route path="/invoice/:id" element={<Invoice />} />
+
+        <Route path="/success" element={<PaymentSuccessPopup />} />
+        <Route path="/failed" element={<PaymentFailedPopup />} />
+
+        
       </Routes>
 
       <ScrollToTopButton />

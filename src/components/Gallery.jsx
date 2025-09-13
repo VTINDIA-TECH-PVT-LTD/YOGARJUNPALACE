@@ -7,32 +7,32 @@ const Gallery = () => {
     {
       title: "Hotel Yogarjun Palace",
       image:
-        "https://www.madebydesignesia.com/themes/seaside/images/gallery/gallery-item-2.jpg",
+        "/uploads/gallary.jpeg",
     },
     {
       title: "Hotel Yogarjun Palace",
       image:
-        "https://www.madebydesignesia.com/themes/seaside/images/gallery/gallery-item-5.jpg",
+        "/uploads/gallary1.jpeg",
     },
     {
       title: "Hotel Yogarjun Palace",
       image:
-        "https://www.madebydesignesia.com/themes/seaside/images/gallery/gallery-item-2.jpg",
+        "/uploads/gallary2.jpeg",
     },
     {
       title: "Hotel Yogarjun Palace",
       image:
-        "https://www.madebydesignesia.com/themes/seaside/images/gallery/gallery-item-2.jpg",
+        "/uploads/gallary3.jpeg",
     },
     {
       title: "Hotel Yogarjun Palace",
       image:
-        "https://www.madebydesignesia.com/themes/seaside/images/gallery/gallery-item-2.jpg",
+        "/uploads/gallary4.jpeg",
     },
     {
       title: "Hotel Yogarjun Palace",
       image:
-        "https://www.madebydesignesia.com/themes/seaside/images/gallery/gallery-item-2.jpg",
+        "/uploads/gallary5.jpeg",
     },
   ];
 

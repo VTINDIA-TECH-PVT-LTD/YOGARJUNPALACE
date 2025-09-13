@@ -7,10 +7,20 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 const Testimonial = () => {
+  const containerStyle = {
+    backgroundImage: "url('/uploads/4.jpg')", // path to your image
+    backgroundSize: "100% 100%",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    padding: "60px 20px", // optional: adjust spacing as needed
+  };
+
   return (
-    <section className="jarallax" id="testimonials">
-      <img src="images/background/4.jpg" className="jarallax-img" alt="" />
-      <div className="container">
+    <section className="jarallax" id="testimonials" style={containerStyle}>
+      {/* Remove the img tag if you're using backgroundImage in style */}
+      {/* <img src="images/background/4.jpg" className="jarallax-img" alt="" /> */}
+
+      <div className="container" style={{  borderRadius: "10px", padding: "20px" }}>
         <div className="row gx-4">
           <div className="col-lg-12 text-center">
             <h2 className="title center" id="testimonialsheading">
@@ -26,8 +36,7 @@ const Testimonial = () => {
               slidesPerView={1}
               loop={true}
               autoplay={{ delay: 4000, disableOnInteraction: false }}
-              speed={800} // smooth transition timing (ms)
-            //   pagination={{ clickable: true }}
+              speed={800}
             >
               <SwiperSlide>
                 <blockquote className="testimonial-big">
@@ -37,7 +46,7 @@ const Testimonial = () => {
                     enjoyable. I highly recommend this hotel for anyone visiting
                     downtown
                   </span>
-                  <span className="name">Abhijit kar, Customer</span>
+                  <span className="name">Abhijit Kar, Customer</span>
                 </blockquote>
               </SwiperSlide>
 
@@ -46,7 +55,7 @@ const Testimonial = () => {
                   <span className="d-testi">
                     They were extremely accommodating and allowed us to check in
                     early at like 10am. We got to hotel super early and I didn’t
-                    wanna wait. So this was a big plus. The sevice was exceptional
+                    wanna wait. So this was a big plus. The service was exceptional
                     as well. Would definitely send a friend there.
                   </span>
                   <span className="name">Ajay Das, Customer</span>
